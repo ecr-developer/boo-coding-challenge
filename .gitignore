@@ -1,0 +1,16 @@
+target/
+!**/src/test/**
+
+**/node_modules/**
+package-lock.json
+test-report.xml
+
+### WebStorm IDE ###
+.idea/
+### VS Code ###
+.vscode/
+
+### Coverage directory
+coverage
+
+.env
