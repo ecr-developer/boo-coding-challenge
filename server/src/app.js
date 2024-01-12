@@ -19,7 +19,7 @@ console.log('Express started. Listening on %s', port);
 */
 const app = express();
 app.use(express.json());
-//app.disable('x-powered-by');
+app.disable('x-powered-by');
 app.use(routes);
 
 module.exports = app;

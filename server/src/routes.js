@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const logger = require('./config/logger');
 
 const router = Router();
 
@@ -10,6 +11,7 @@ router.get('/actuator/health', async (_req, res) => {
         date: new Date(),
       });
     } catch (error) {
+      logger.error(error);
       return res.status(503).send();
     } 
   });
