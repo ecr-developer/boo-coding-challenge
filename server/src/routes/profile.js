@@ -1,7 +1,7 @@
 'use strict';
 
-const express = require('express');
-const router = express.Router();
+const { Router } = require('express');
+const router = Router();
 
 const profiles = [
   {
@@ -29,4 +29,3 @@ module.exports = function() {
 
   return router;
 }
-

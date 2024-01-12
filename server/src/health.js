@@ -14,6 +14,6 @@ router.get('/actuator/health', async (_req, res) => {
       logger.error(error);
       return res.status(503).send();
     } 
-  });
+});
   
-  module.exports = router;
+module.exports = router;
