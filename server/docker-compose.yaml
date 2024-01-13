@@ -1,24 +1,21 @@
 version: '3.1'
 
-networks:
-  boo-coding-network:
-    driver:  bridge
-
 services:
 
   mongo:
     image: mongo:4.4.20
-    container_name: boo-coding-mongodb
-    mem_limit: 512m    
-    volumes:
-      - ./.docker/data/db:/data/db
+    container_name: boo-mongodb
+    mem_limit: 512m
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
     healthcheck:
       test: ["CMD-SHELL", "mongo --eval 'db.runCommand({ connectionStatus: 1 })'"]
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - .docker/data/db:/data/db
     ports:
       - '27017:27017'
-    networks:
-      - boo-coding-network
-    command: mongod
+#    command: mongod --logpath=/dev/null # --quiet
