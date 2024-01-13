@@ -30,7 +30,11 @@ const config: Config = {
     },
   },
   testEnvironment: 'node',
-  setupFilesAfterEnv: ['./core/shared/infra/testing/expect-helpers.ts'],
+  preset: "ts-jest",
+  setupFilesAfterEnv: [
+    './core/shared/infra/testing/expect-helpers.ts',
+    "./test/setup.ts",
+  ],
   coverageProvider: 'v8',
   clearMocks: true,
 };
