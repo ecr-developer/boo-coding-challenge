@@ -1,3 +1,5 @@
+import { Notification } from './notification';
+
 export type FieldsErrors =
   | {
       [field: string]: string[];
@@ -5,5 +7,5 @@ export type FieldsErrors =
   | string;
 
 export interface IValidatorFields {
-  validate(data: any, fields: string[]): boolean;
+  validate(notification: Notification, data: any, fields: string[]): boolean;
 }

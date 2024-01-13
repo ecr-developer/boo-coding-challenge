@@ -87,7 +87,7 @@ export class Profile extends AggregateRoot {
 
   validate(fields?: string[]) {
     const validator = ProfileValidatorFactory.create();
-    return validator.validate(this, fields);
+    return validator.validate(this.notification, this, fields);
   }
 
   toJSON() {

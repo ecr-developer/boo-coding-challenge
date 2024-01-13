@@ -117,6 +117,31 @@ describe('Profile Without Validator Unit Tests', () => {
       expect(profile.is_active).toBe(true);
       expect(profile.created_at).toBeInstanceOf(Date);
       expect(Profile.prototype.validate).toHaveBeenCalledTimes(1);
+      expect(profile.notification.hasErrors()).toBe(false);
+    });
+  });
+
+  describe('profile_id field', () => {
+    const arrange = [{ id: null }, { id: undefined }, { id: new ProfileId() }];
+
+    test.each(arrange)('should be is %j', (props) => {
+      const profile = new Profile(props as any);
+      expect(profile.profile_id).toBeInstanceOf(ProfileId);
+    });
+  });
+});
+
+describe('Profile Validator', () => {
+  describe('create command', () => {
+    test('should an invalid profile with name property', () => {
+      const profile = Profile.create({ name: 't'.repeat(256) });
+
+      expect(profile.notification.hasErrors()).toBe(true);
+      expect(profile.notification).notificationContainsErrorMessages([
+        {
+          name: ['name must be shorter than or equal to 255 characters'],
+        },
+      ]);
     });
   });
 });
