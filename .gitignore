@@ -1,16 +1,33 @@
+# compiled output
+/dist
+
 target/
 !**/src/test/**
 
 **/node_modules/**
 package-lock.json
 test-report.xml
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Tests
+/coverage
+/.nyc_output
 
 ### WebStorm IDE ###
 .idea/
 ### VS Code ###
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
 
 ### Coverage directory
 coverage
+
+server/.docker/filebeatdata
 
 .env
