@@ -1,4 +1,4 @@
-const winston = require('winston')
+const winston = require('winston');
 
 module.exports = winston.createLogger({
   format: winston.format.combine(
@@ -6,5 +6,5 @@ module.exports = winston.createLogger({
   ),
   transports: [
     new winston.transports.Console(),
-  ]
+  ],
 });

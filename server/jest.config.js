@@ -12,6 +12,6 @@ module.exports = {
     '!**/src/config/**',
   ],
   modulePathIgnorePatterns: [
-    'src/constants'
+    'src/constants',
   ],
 };
