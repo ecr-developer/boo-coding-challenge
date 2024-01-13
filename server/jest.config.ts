@@ -206,7 +206,11 @@ const config: Config = {
   collectCoverageFrom: ['**/*.(t|j)s'],
   coverageDirectory: '../coverage',
   coveragePathIgnorePatterns: [
-    '/node_modules/',    
+    '/node_modules/',
+    '.interface.ts',
+    '-interface.ts',
+    'validator-rules.ts',
+    
   ],
   coverageThreshold: {
     global: {
