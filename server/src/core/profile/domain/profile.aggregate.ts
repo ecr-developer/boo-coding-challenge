@@ -2,6 +2,7 @@ import { AggregateRoot } from '../../shared/domain/aggregate-root';
 import { ValueObject } from '../../shared/domain/value-object';
 import { Uuid } from '../../shared/domain/value-objects/uuid.vo';
 import { ProfileValidatorFactory } from './profile.validator';
+import { ProfileFakeBuilder } from './profile-fake.builder';
 
 export class ProfileId extends Uuid {}
 
@@ -88,6 +89,10 @@ export class Profile extends AggregateRoot {
   validate(fields?: string[]) {
     const validator = ProfileValidatorFactory.create();
     return validator.validate(this.notification, this, fields);
+  }
+
+  static fake() {
+    return ProfileFakeBuilder;
   }
 
   toJSON() {
