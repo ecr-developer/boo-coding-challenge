@@ -18,6 +18,13 @@ dependencies {
     testImplementation 'org.mockito:mockito-junit-jupiter:5.0.0'
 }
 
-test {
+
+tasks.named("test") {
     useJUnitPlatform()
+}
+
+task unitTests(type: Test, group: "verification") {
+    useJUnitPlatform {
+        includeTags("unitTest")
+    }
 }
