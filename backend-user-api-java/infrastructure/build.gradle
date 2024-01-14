@@ -1,11 +1,16 @@
 plugins {
     id 'java-conventions'
     id 'application'
-    id 'org.springframework.boot' version '3.2.1'
-    id 'io.spring.dependency-management' version '1.1.4'
+    id 'org.springframework.boot' version '2.7.7'
+    id 'io.spring.dependency-management' version '1.1.0'
 }
 
 group = 'boo.ecrodrigues.user.infrastructure'
+
+bootJar {
+    archiveName 'application.jar'
+    destinationDirectory.set(file("${rootProject.buildDir}/libs"))
+}
 
 dependencies {
     implementation(project(":domain"))
@@ -15,18 +20,8 @@ dependencies {
         exclude module: 'spring-boot-starter-tomcat'
     }
     implementation('org.springframework.boot:spring-boot-starter-undertow')
-    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-
-    implementation('org.yaml:snakeyaml:1.33') {
-        version { strictly("1.33") }
-    }
-
-    testImplementation(project(path: ':domain', configuration: 'testClasses'))
 
     testImplementation('org.springframework.boot:spring-boot-starter-test')
-
-    testImplementation('org.testcontainers:testcontainers:1.19.3')
-    testImplementation('org.testcontainers:junit-jupiter:1.19.3')
 }
 
 test {

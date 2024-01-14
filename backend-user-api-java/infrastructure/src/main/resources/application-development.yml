@@ -1,0 +1,6 @@
+server:
+  port: 8080
+  undertow:
+    threads:
+      worker: 12
+      io: 4
