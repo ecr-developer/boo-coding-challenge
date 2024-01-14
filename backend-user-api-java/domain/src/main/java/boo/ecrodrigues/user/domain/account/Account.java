@@ -2,6 +2,7 @@ package boo.ecrodrigues.user.domain.account;
 
 import boo.ecrodrigues.user.domain.AggregateRoot;
 import boo.ecrodrigues.user.domain.utils.InstantUtils;
+import boo.ecrodrigues.user.domain.validation.ValidationHandler;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
@@ -63,6 +64,11 @@ public class Account extends AggregateRoot<AccountID> implements Cloneable {
         aAccount.updatedAt,
         aAccount.deletedAt
     );
+  }
+
+  @Override
+  public void validate(final ValidationHandler handler) {
+    new AccountValidator(this, handler).validate();
   }
 
   public Account activate() {
