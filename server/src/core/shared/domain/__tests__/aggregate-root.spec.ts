@@ -51,6 +51,6 @@ describe('AggregateRoot Unit Tests', () => {
     const id = new Uuid();
     const aggregate = new StubAggregateRoot('test name', id);
     aggregate.operation();
-    expect(aggregate.field1).toBe('TEST NAME');
+    expect(aggregate.name).toBe('TEST NAME');
   });
 });

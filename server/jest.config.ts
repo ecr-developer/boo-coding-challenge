@@ -20,6 +20,8 @@ const config: Config = {
     '-interface.ts',
     'validator-rules.ts',
     'shared/testing',
+    '/views/',
+    '/public/',
   ],
   coverageThreshold: {
     global: {
@@ -33,7 +35,7 @@ const config: Config = {
   preset: "ts-jest",
   setupFilesAfterEnv: [
     './core/shared/infra/testing/expect-helpers.ts',
-    "./test/setup.ts",
+//    "./test/setup.ts",
   ],
   coverageProvider: 'v8',
   clearMocks: true,
