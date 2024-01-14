@@ -1,4 +1,0 @@
-rootProject.name = "backend-admin-user-api-java"
-include 'domain'
-include 'application'
-include 'infrastructure'
