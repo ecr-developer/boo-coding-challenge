@@ -1,10 +1,10 @@
 package boo.ecrodrigues.user.domain.account;
 
-import java.util.UUID;
+import boo.ecrodrigues.user.domain.UnitTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class AccountTest {
+public class AccountTest extends UnitTest {
 
   @Test
   public void givenAValidParams_whenCallNewAccount_thenInstantiateAnAccount() {
@@ -15,7 +15,7 @@ public class AccountTest {
         Account.newAccount(expectedName, expectedIsActive);
 
     Assertions.assertNotNull(actualAccount);
-    Assertions.assertNotNull(UUID.randomUUID().toString());
+    Assertions.assertNotNull(actualAccount.getId());
     Assertions.assertEquals(expectedName, actualAccount.getName());
     Assertions.assertEquals(expectedIsActive, actualAccount.isActive());
     Assertions.assertNotNull(actualAccount.getCreatedAt());

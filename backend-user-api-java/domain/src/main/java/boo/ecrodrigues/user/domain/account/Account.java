@@ -1,12 +1,12 @@
 package boo.ecrodrigues.user.domain.account;
 
+import boo.ecrodrigues.user.domain.AggregateRoot;
 import boo.ecrodrigues.user.domain.utils.InstantUtils;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Account implements Cloneable {
-  private String id;
+public class Account extends AggregateRoot<AccountID> implements Cloneable {
   private String name;
   private boolean active;
   private Instant createdAt;
@@ -14,14 +14,14 @@ public class Account implements Cloneable {
   private Instant deletedAt;
 
   private Account(
-      final String anId,
+      final AccountID anId,
       final String aName,
       final boolean isActive,
       final Instant aCreationDate,
       final Instant aUpdateDate,
       final Instant aDeleteDate
   ) {
-    this.id = anId;
+    super(anId);
     this.name = aName;
     this.active = isActive;
     this.createdAt = Objects.requireNonNull(aCreationDate, "'createdAt' should not be null");
@@ -30,14 +30,14 @@ public class Account implements Cloneable {
   }
 
   public static Account newAccount(final String aName, final boolean isActive) {
-    final var id = UUID.randomUUID().toString();
+    final var id = AccountID.unique();
     final var now = InstantUtils.now();
     final var deletedAt = isActive ? null : now;
     return new Account(id, aName, isActive, now, now, deletedAt);
   }
 
   public static Account with(
-      final String anId,
+      final AccountID anId,
       final String name,
       final boolean active,
       final Instant createdAt,
@@ -54,14 +54,14 @@ public class Account implements Cloneable {
     );
   }
 
-  public static Account with(final Account aCategory) {
+  public static Account with(final Account aAccount) {
     return with(
-        aCategory.getId(),
-        aCategory.name,
-        aCategory.isActive(),
-        aCategory.createdAt,
-        aCategory.updatedAt,
-        aCategory.deletedAt
+        aAccount.getId(),
+        aAccount.name,
+        aAccount.isActive(),
+        aAccount.createdAt,
+        aAccount.updatedAt,
+        aAccount.deletedAt
     );
   }
 
@@ -96,7 +96,7 @@ public class Account implements Cloneable {
     return this;
   }
 
-  public String getId() {
+  public AccountID getId() {
     return id;
   }
 
