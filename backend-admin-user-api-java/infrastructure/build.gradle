@@ -1,0 +1,18 @@
+plugins {
+    id 'java-conventions'
+    id 'application'
+}
+
+group 'boo.ecrodrigues.admin.user.infrastructure'
+
+bootJar {
+    archiveName 'application.jar'
+    destinationDirectory.set(file("${rootProject.buildDir}/libs"))
+}
+
+dependencies {
+    implementation(project(":domain"))
+    implementation(project(":application"))
+
+    testImplementation(project(path: ':domain', configuration: 'testClasses'))
+}
