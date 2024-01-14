@@ -41,7 +41,7 @@ describe('ProfilesIdExistsInDatabaseValidator Unit Tests', () => {
     expect(spyExistsById).toHaveBeenCalledTimes(2);
   });
 
-  it('should return a list of categories id', async () => {
+  it('should return a list of profiles id', async () => {
     const profile1 = Profile.fake().aProfile().build();
     const profile2 = Profile.fake().aProfile().build();
     await profileRepo.bulkInsert([profile1, profile2]);

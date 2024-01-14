@@ -97,7 +97,7 @@ export class Profile extends AggregateRoot {
 
   toJSON() {
     return {
-      id: this.profile_id.id,
+      profile_id: this.profile_id.id,
       name: this.name,
       description: this.description,
       mbti: this.mbti,
