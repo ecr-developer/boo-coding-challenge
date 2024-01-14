@@ -1,20 +1,19 @@
 package boo.ecrodrigues.user.application.account.delete;
 
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
-
 import boo.ecrodrigues.user.application.UseCaseTest;
 import boo.ecrodrigues.user.domain.account.Account;
 import boo.ecrodrigues.user.domain.account.AccountGateway;
 import boo.ecrodrigues.user.domain.account.AccountID;
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
 public class DeleteAccountUseCaseTest extends UseCaseTest {
 
