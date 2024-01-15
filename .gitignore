@@ -28,6 +28,6 @@ npm-debug.log*
 ### Coverage directory
 coverage
 
-server/.docker/filebeatdata
+.docker/filebeatdata
 
 .env

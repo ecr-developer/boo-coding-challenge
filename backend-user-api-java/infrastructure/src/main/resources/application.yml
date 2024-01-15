@@ -1,5 +1,7 @@
 server:
   port: 8081
+  http2:
+    enabled: true
   compression:
     enabled: true # Whether response compression is enabled.
     mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json # Comma-separated list of MIME types that should be compressed.
@@ -9,3 +11,58 @@ server:
       worker: 64 # Generally this should be reasonably high, at least 10 per CPU core: https://undertow.io/undertow-docs/undertow-docs-2.1.0/index.html#listeners-2
       io: 4 # One IO thread per CPU core is a reasonable default: https://undertow.io/undertow-docs/undertow-docs-2.1.0/index.html#listeners-2
 
+spring:
+  application:
+    name: boo-user-service
+  lifecycle:
+    timeout-per-shutdown-phase: ${SPRING_TIMEOUT_SHUTDOWN_PHASE:18s}
+  data:
+    mongodb:
+      uri: ${MONGO_CONNECTION_STRING:mongodb://localhost:27017}
+      database: ${MONGO_DATABASE_NAME:BooWorld}
+
+database:
+  queryTimeoutMS: ${QUERY_TIMEOUT_MS:20000}
+
+# Swagger configurations
+swagger:
+  url: ${SWAGGER_BASE_URL:http://localhost:${server.port}}
+  username: ${SWAGGER_USERNAME:boo}
+  password: ${SWAGGER_PASSWORD:boo}
+
+springdoc:
+  api-docs:
+    enabled: ${SWAGGER_API_DOCS_ENABLED:true}
+  swagger-ui:
+    url: ${swagger.url}/v1/api-docs
+    configUrl: ${swagger.url}/v1/api-docs/swagger-config
+    displayRequestDuration: false
+    validatorUrl: none
+
+# Enable the "/refresh" endpoint for dynamic configuration changes
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    enabled-by-default: false
+  health:
+    mongo:
+      enabled: false
+    customMongoHealth:
+      enabled: ${HEALTH_CHECK_MONGO_ENABLED:true}
+    probes:
+      enabled: true
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
+      group:
+        liveness:
+          include: livenessState,customMongoHealth
+        readiness:
+          include: readinessState
