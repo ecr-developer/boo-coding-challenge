@@ -29,7 +29,7 @@ public class ListAccountsUseCaseTest extends UseCaseTest {
 
   @Test
   public void givenAValidQuery_whenCallsListAccounts_thenShouldReturnAccounts() {
-    final var categories = List.of(
+    final var accounts = List.of(
         Account.newAccount("A Martinez", true),
         Account.newAccount("G Fernandez", true)
     );
@@ -44,7 +44,7 @@ public class ListAccountsUseCaseTest extends UseCaseTest {
         new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
     final var expectedPagination =
-        new Pagination<>(expectedPage, expectedPerPage, categories.size(), categories);
+        new Pagination<>(expectedPage, expectedPerPage, accounts.size(), accounts);
 
     final var expectedItemsCount = 2;
     final var expectedResult = expectedPagination.map(AccountListOutput::from);
@@ -58,7 +58,7 @@ public class ListAccountsUseCaseTest extends UseCaseTest {
     Assertions.assertEquals(expectedResult, actualResult);
     Assertions.assertEquals(expectedPage, actualResult.currentPage());
     Assertions.assertEquals(expectedPerPage, actualResult.perPage());
-    Assertions.assertEquals(categories.size(), actualResult.total());
+    Assertions.assertEquals(accounts.size(), actualResult.total());
   }
 
   @Test
