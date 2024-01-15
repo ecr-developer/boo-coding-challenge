@@ -20,6 +20,11 @@ spring:
     mongodb:
       uri: ${MONGO_CONNECTION_STRING:mongodb://localhost:27017}
       database: ${MONGO_DATABASE_NAME:BooWorld}
+  jpa:
+    open-in-view: false
+    show-sql: false
+    hibernate:
+      ddl-auto: none
 
 database:
   queryTimeoutMS: ${QUERY_TIMEOUT_MS:20000}
@@ -48,9 +53,7 @@ management:
     enabled-by-default: false
   health:
     mongo:
-      enabled: false
-    customMongoHealth:
-      enabled: ${HEALTH_CHECK_MONGO_ENABLED:true}
+      enabled: true
     probes:
       enabled: true
     livenessState:
@@ -58,11 +61,15 @@ management:
     readinessState:
       enabled: true
   endpoint:
-    health:
-      show-details: always
+    info:
       enabled: true
+    health:
+      show-components: always
+      enabled: true
+      probes:
+        enabled: true
       group:
         liveness:
-          include: livenessState,customMongoHealth
+          include: livenessState, mongo
         readiness:
-          include: readinessState
+          include: readinessState, mongo

@@ -4,3 +4,10 @@ server:
     threads:
       worker: 12
       io: 4
+
+spring:
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: none
