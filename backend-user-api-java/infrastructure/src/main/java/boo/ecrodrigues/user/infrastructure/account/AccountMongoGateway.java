@@ -19,11 +19,11 @@ import org.springframework.stereotype.Component;
 import static boo.ecrodrigues.user.infrastructure.utils.SpecificationUtils.like;
 
 @Component
-public class CategoryMongoGateway implements AccountGateway {
+public class AccountMongoGateway implements AccountGateway {
 
   private final AccountRepository repository;
 
-  public CategoryMongoGateway(final AccountRepository repository) {
+  public AccountMongoGateway(final AccountRepository repository) {
     this.repository = repository;
   }
 
