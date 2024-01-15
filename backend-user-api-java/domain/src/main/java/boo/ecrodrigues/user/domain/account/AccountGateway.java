@@ -13,7 +13,7 @@ public interface AccountGateway {
 
   Optional<Account> findById(AccountID anId);
 
-  Account update(Account aCategory);
+  Account update(Account anAccount);
 
   Pagination<Account> findAll(SearchQuery aQuery);
 
