@@ -1,5 +1,7 @@
-spring:
-  data:
-    mongodb:
-      uri: "mongodb://localhost:27017"
-      database: "BooWorld"
+logging:
+  level:
+    ROOT: DEBUG
+
+database:
+  collections:
+    account: Accounts

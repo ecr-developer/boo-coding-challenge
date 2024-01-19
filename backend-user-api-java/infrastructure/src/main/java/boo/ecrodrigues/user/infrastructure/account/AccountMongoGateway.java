@@ -5,95 +5,112 @@ import boo.ecrodrigues.user.domain.account.AccountGateway;
 import boo.ecrodrigues.user.domain.account.AccountID;
 import boo.ecrodrigues.user.domain.pagination.Pagination;
 import boo.ecrodrigues.user.domain.pagination.SearchQuery;
-import boo.ecrodrigues.user.infrastructure.account.persistence.AccountJpaEntity;
+import boo.ecrodrigues.user.infrastructure.account.persistence.AccountEntity;
 import boo.ecrodrigues.user.infrastructure.account.persistence.AccountRepository;
+import boo.ecrodrigues.user.infrastructure.configuration.DatabaseCollectionsConfig;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
-
-import static boo.ecrodrigues.user.infrastructure.utils.SpecificationUtils.like;
+import org.springframework.stereotype.Repository;
 
 @Component
 public class AccountMongoGateway implements AccountGateway {
 
-  private final AccountRepository repository;
+  private static final Logger logger = LoggerFactory.getLogger(AccountMongoGateway.class);
 
-  public AccountMongoGateway(final AccountRepository repository) {
-    this.repository = repository;
+  private static final String ACCOUNT_ID = "accountId";
+  private static final String ACTIVE = "active";
+
+  private static final String DELETED_FIELD_NAME = "deletedAt";
+
+  private final MongoOperations mongoOperations;
+
+  private final DatabaseCollectionsConfig collectionsConfig;
+
+  private final AccountRepository accountRepository;
+
+  @Autowired
+  public AccountMongoGateway(
+      final MongoOperations mongoOperations,
+      final DatabaseCollectionsConfig collectionsConfig,
+      final AccountRepository accountRepository
+  ) {
+    this.mongoOperations = mongoOperations;
+    this.collectionsConfig = collectionsConfig;
+    this.accountRepository = accountRepository;
   }
 
   @Override
   public Account create(Account anAccount) {
-    return save(anAccount);
-  }
-
-  @Override
-  public void deleteById(AccountID anId) {
-    final String anIdValue = anId.getValue();
-    if (this.repository.existsById(anIdValue)) {
-      this.repository.deleteById(anIdValue);
-    }
-  }
-
-  @Override
-  public Optional<Account> findById(AccountID anId) {
-    return this.repository.findById(anId.getValue())
-        .map(AccountJpaEntity::toAggregate);
+    final String collectionName = collectionsConfig.getAccount();
+    return mongoOperations.insert(AccountEntity.from(anAccount), collectionName).toAggregate();
   }
 
   @Override
   public Account update(Account anAccount) {
-    return save(anAccount);
+    final String accountCollection = collectionsConfig.getAccount();
+    return mongoOperations.save(AccountEntity.from(anAccount), accountCollection).toAggregate();
+  }
+
+  @Override
+  public void deleteById(Account anAccount) {
+    final String anIdValue = anAccount.getId().getValue();
+    final Query query = new Query();
+    query.addCriteria(Criteria.where(ACCOUNT_ID).is(anIdValue));
+    query.addCriteria(Criteria.where(ACTIVE).is(Boolean.FALSE));
+
+    final var update = new Update();
+    update.set(ACTIVE, anAccount.isActive());
+    update.set("updatedAt", anAccount.getUpdatedAt());
+    update.set("deletedAt", anAccount.getDeletedAt());
+
+    final String collectionName = collectionsConfig.getAccount();
+    mongoOperations.findAndModify(query, update, AccountEntity.class, collectionName);
+  }
+
+  @Override
+  public Optional<Account> findById(AccountID anId) {
+    final String accountCollection = collectionsConfig.getAccount();
+    final AccountEntity entity = mongoOperations.findById(anId.getValue(), AccountEntity.class, accountCollection);
+    return Optional.ofNullable(entity.toAggregate());
   }
 
   @Override
   public Pagination<Account> findAll(SearchQuery aQuery) {
     // Pagination
-    final var page = PageRequest.of(
+    final var pageRequest = PageRequest.of(
         aQuery.page(),
-        aQuery.perPage(),
-        Sort.by(Direction.fromString(aQuery.direction()), aQuery.sort())
+        aQuery.perPage()
     );
 
-    //Dynamic search by terms (name or ...)
-    final var specifications = Optional.ofNullable(aQuery.terms())
+    // Dynamic search using terms (name or description)
+    final var query = new Query();
+    Optional.ofNullable(aQuery.terms())
         .filter(str -> !str.isBlank())
-        .map(this::assembleSpecification)
-        .orElse(null);
+        .ifPresent(str -> {
+          Criteria nameCriteria = Criteria.where("name").regex(str, "i");
+          query.addCriteria(new Criteria().orOperator(nameCriteria));
+        });
 
-    final var pageResult =
-        this.repository.findAll(Specification.where(specifications), page);
+    query.with(pageRequest);
+
+    final var pageResult = mongoOperations.find(query, AccountEntity.class);
+    long totalCount = mongoOperations.count(query, AccountEntity.class);
 
     return new Pagination<>(
-        pageResult.getNumber(),
-        pageResult.getSize(),
-        pageResult.getTotalElements(),
-        pageResult.map(AccountJpaEntity::toAggregate).toList()
+        pageRequest.getPageNumber(),
+        pageRequest.getPageSize(),
+        totalCount,
+        pageResult.stream().map(AccountEntity::toAggregate).toList()
     );
   }
-
-  @Override
-  public List<AccountID> existsByIds(Iterable<AccountID> accountIDs) {
-    final var ids = StreamSupport.stream(accountIDs.spliterator(), false)
-        .map(AccountID::getValue)
-        .toList();
-    return this.repository.existsByIds(ids).stream()
-        .map(AccountID::from)
-        .toList();
-  }
-
-  private Account save(final Account anAccount) {
-    return this.repository.save(AccountJpaEntity.from(anAccount)).toAggregate();
-  }
-
-  private Specification<AccountJpaEntity> assembleSpecification(final String str) {
-    final Specification<AccountJpaEntity> nameLike = like("name", str);
-    return nameLike;
-  }
-
 }

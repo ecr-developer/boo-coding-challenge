@@ -9,14 +9,11 @@ public interface AccountGateway {
 
   Account create(Account anAccount);
 
-  void deleteById(AccountID anId);
+  void deleteById(Account anAccount);
 
   Optional<Account> findById(AccountID anId);
 
   Account update(Account anAccount);
 
   Pagination<Account> findAll(SearchQuery aQuery);
-
-  List<AccountID> existsByIds(Iterable<AccountID> ids);
-
 }

@@ -4,6 +4,7 @@ import boo.ecrodrigues.user.application.UseCaseTest;
 import boo.ecrodrigues.user.domain.account.Account;
 import boo.ecrodrigues.user.domain.account.AccountGateway;
 import boo.ecrodrigues.user.domain.account.AccountID;
+import boo.ecrodrigues.user.domain.utils.InstantUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -29,40 +30,46 @@ public class DeleteAccountUseCaseTest extends UseCaseTest {
   }
 
   @Test
-  public void givenAValidId_whenCallsDeleteAccount_shouldBeOK() {
+  public void givenAValidAccount_whenCallsDeleteAccount_shouldBeOK() {
     final var anAccount = Account.newAccount("A Martinez", true);
-    final var expectedId = anAccount.getId();
 
     doNothing()
-        .when(accountGateway).deleteById(eq(expectedId));
+        .when(accountGateway).deleteById(eq(anAccount));
 
-    Assertions.assertDoesNotThrow(() -> useCase.execute(expectedId.getValue()));
+    Assertions.assertDoesNotThrow(() -> useCase.execute(anAccount));
 
-    Mockito.verify(accountGateway, times(1)).deleteById(eq(expectedId));
+    Mockito.verify(accountGateway, times(1)).deleteById(eq(anAccount));
   }
 
   @Test
   public void givenAInvalidId_whenCallsDeleteAccount_shouldBeOK() {
-    final var expectedId = AccountID.from("123");
+    final var anAccount = Account.with(
+        AccountID.from("123"),
+        "A Martinez",
+        false,
+        InstantUtils.now(),
+        InstantUtils.now(),
+        InstantUtils.now()
+    );
+
 
     doNothing()
-        .when(accountGateway).deleteById(eq(expectedId));
+        .when(accountGateway).deleteById(eq(anAccount));
 
-    Assertions.assertDoesNotThrow(() -> useCase.execute(expectedId.getValue()));
+    Assertions.assertDoesNotThrow(() -> useCase.execute(anAccount));
 
-    Mockito.verify(accountGateway, times(1)).deleteById(eq(expectedId));
+    Mockito.verify(accountGateway, times(1)).deleteById(eq(anAccount));
   }
 
   @Test
   public void givenAValidId_whenGatewayThrowsException_shouldReturnException() {
     final var anAccount = Account.newAccount("A Martinez", true);
-    final var expectedId = anAccount.getId();
 
     doThrow(new IllegalStateException("Gateway error"))
-        .when(accountGateway).deleteById(eq(expectedId));
+        .when(accountGateway).deleteById(eq(anAccount));
 
-    Assertions.assertThrows(IllegalStateException.class, () -> useCase.execute(expectedId.getValue()));
+    Assertions.assertThrows(IllegalStateException.class, () -> useCase.execute(anAccount));
 
-    Mockito.verify(accountGateway, times(1)).deleteById(eq(expectedId));
+    Mockito.verify(accountGateway, times(1)).deleteById(eq(anAccount));
   }
 }

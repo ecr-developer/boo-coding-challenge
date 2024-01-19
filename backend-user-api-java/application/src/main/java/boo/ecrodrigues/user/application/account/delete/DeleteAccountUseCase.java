@@ -1,11 +1,11 @@
 package boo.ecrodrigues.user.application.account.delete;
 
 import boo.ecrodrigues.user.application.UnitUseCase;
+import boo.ecrodrigues.user.domain.account.Account;
 import boo.ecrodrigues.user.domain.account.AccountGateway;
-import boo.ecrodrigues.user.domain.account.AccountID;
 import java.util.Objects;
 
-public class DeleteAccountUseCase extends UnitUseCase<String> {
+public class DeleteAccountUseCase extends UnitUseCase<Account> {
 
   private final AccountGateway accountGateway;
 
@@ -14,11 +14,11 @@ public class DeleteAccountUseCase extends UnitUseCase<String> {
   }
 
   @Override
-  public void execute(final String anIn) {
-    if (anIn == null) {
+  public void execute(final Account anAccount) {
+    if (anAccount == null) {
       return;
     }
 
-    this.accountGateway.deleteById(AccountID.from(anIn));
+    this.accountGateway.deleteById(anAccount);
   }
 }

@@ -1,13 +1,12 @@
+logging:
+  level:
+    ROOT: DEBUG
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
+    de.flapdoodle.embed:de.flapdoodle.embed.mongo: DEBUG
+
 server:
   port: 8080
   undertow:
     threads:
       worker: 12
       io: 4
-
-spring:
-  jpa:
-    open-in-view: false
-    show-sql: true
-    hibernate:
-      ddl-auto: none
