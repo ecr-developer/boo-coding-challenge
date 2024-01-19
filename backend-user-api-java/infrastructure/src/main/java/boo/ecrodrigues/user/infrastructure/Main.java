@@ -7,7 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.AbstractEnvironment;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "boo.ecrodrigues.user")
 public class Main {
 
   private static final Logger LOG = LoggerFactory.getLogger(Main.class);
