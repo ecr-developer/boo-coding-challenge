@@ -62,6 +62,8 @@ dependencies {
     testImplementation('org.junit.vintage:junit-vintage-engine:5.10.1') {
         exclude group: 'org.hamcrest', module: 'hamcrest-core'
     }
+
+    testImplementation('de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.4.8')
 }
 
 test {

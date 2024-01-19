@@ -24,7 +24,7 @@ spring:
     allow-bean-definition-overriding: true
   data:
     mongodb:
-      uri: ${MONGODB_CONNECTION_STRING:mongodb://localhost:27017/mongodb}
+      uri: ${MONGODB_CONNECTION_STRING:mongodb://localhost:27017/}
       database: ${MONGODB_DATABASE:BooWorld}
 
 database:

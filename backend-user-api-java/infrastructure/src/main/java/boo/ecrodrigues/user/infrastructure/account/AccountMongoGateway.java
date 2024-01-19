@@ -8,21 +8,19 @@ import boo.ecrodrigues.user.domain.pagination.SearchQuery;
 import boo.ecrodrigues.user.infrastructure.account.persistence.AccountEntity;
 import boo.ecrodrigues.user.infrastructure.account.persistence.AccountRepository;
 import boo.ecrodrigues.user.infrastructure.configuration.DatabaseCollectionsConfig;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
 public class AccountMongoGateway implements AccountGateway {
 
   private static final Logger logger = LoggerFactory.getLogger(AccountMongoGateway.class);
@@ -32,7 +30,7 @@ public class AccountMongoGateway implements AccountGateway {
 
   private static final String DELETED_FIELD_NAME = "deletedAt";
 
-  private final MongoOperations mongoOperations;
+  private final MongoTemplate mongoTemplate;
 
   private final DatabaseCollectionsConfig collectionsConfig;
 
@@ -40,11 +38,11 @@ public class AccountMongoGateway implements AccountGateway {
 
   @Autowired
   public AccountMongoGateway(
-      final MongoOperations mongoOperations,
+      final MongoTemplate mongoTemplate,
       final DatabaseCollectionsConfig collectionsConfig,
       final AccountRepository accountRepository
   ) {
-    this.mongoOperations = mongoOperations;
+    this.mongoTemplate = mongoTemplate;
     this.collectionsConfig = collectionsConfig;
     this.accountRepository = accountRepository;
   }
@@ -52,13 +50,13 @@ public class AccountMongoGateway implements AccountGateway {
   @Override
   public Account create(Account anAccount) {
     final String collectionName = collectionsConfig.getAccount();
-    return mongoOperations.insert(AccountEntity.from(anAccount), collectionName).toAggregate();
+    return mongoTemplate.insert(AccountEntity.from(anAccount), collectionName).toAggregate();
   }
 
   @Override
   public Account update(Account anAccount) {
     final String accountCollection = collectionsConfig.getAccount();
-    return mongoOperations.save(AccountEntity.from(anAccount), accountCollection).toAggregate();
+    return mongoTemplate.save(AccountEntity.from(anAccount), accountCollection).toAggregate();
   }
 
   @Override
@@ -74,13 +72,13 @@ public class AccountMongoGateway implements AccountGateway {
     update.set("deletedAt", anAccount.getDeletedAt());
 
     final String collectionName = collectionsConfig.getAccount();
-    mongoOperations.findAndModify(query, update, AccountEntity.class, collectionName);
+    mongoTemplate.findAndModify(query, update, AccountEntity.class, collectionName);
   }
 
   @Override
   public Optional<Account> findById(AccountID anId) {
     final String accountCollection = collectionsConfig.getAccount();
-    final AccountEntity entity = mongoOperations.findById(anId.getValue(), AccountEntity.class, accountCollection);
+    final AccountEntity entity = mongoTemplate.findById(anId.getValue(), AccountEntity.class, accountCollection);
     return Optional.ofNullable(entity.toAggregate());
   }
 
@@ -103,8 +101,8 @@ public class AccountMongoGateway implements AccountGateway {
 
     query.with(pageRequest);
 
-    final var pageResult = mongoOperations.find(query, AccountEntity.class);
-    long totalCount = mongoOperations.count(query, AccountEntity.class);
+    final var pageResult = mongoTemplate.find(query, AccountEntity.class);
+    long totalCount = mongoTemplate.count(query, AccountEntity.class);
 
     return new Pagination<>(
         pageRequest.getPageNumber(),
