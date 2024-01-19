@@ -76,9 +76,8 @@ public class AccountMongoGateway implements AccountGateway {
 
   @Override
   public Optional<Account> findById(AccountID anId) {
-    final String accountCollection = collectionsConfig.getAccount();
-    final AccountEntity entity = mongoTemplate.findById(anId.getValue(), AccountEntity.class, accountCollection);
-    return Optional.ofNullable(entity.toAggregate());
+    return this.accountRepository.findById(anId.getValue())
+        .map(AccountEntity::toAggregate);
   }
 
   @Override
