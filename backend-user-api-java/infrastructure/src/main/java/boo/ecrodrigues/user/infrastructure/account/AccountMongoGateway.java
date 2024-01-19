@@ -64,10 +64,9 @@ public class AccountMongoGateway implements AccountGateway {
     final String anIdValue = anAccount.getId().getValue();
     final Query query = new Query();
     query.addCriteria(Criteria.where(ACCOUNT_ID).is(anIdValue));
-    query.addCriteria(Criteria.where(ACTIVE).is(Boolean.FALSE));
 
     final var update = new Update();
-    update.set(ACTIVE, anAccount.isActive());
+    update.set(ACTIVE, Boolean.FALSE);
     update.set("updatedAt", anAccount.getUpdatedAt());
     update.set("deletedAt", anAccount.getDeletedAt());
 
