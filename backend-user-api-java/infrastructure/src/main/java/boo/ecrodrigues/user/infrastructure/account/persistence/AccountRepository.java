@@ -13,6 +13,4 @@ public interface AccountRepository extends MongoRepository<AccountEntity, String
 
   Page<AccountEntity> findByNameRegexIgnoreCase(String regex, Pageable pageable);
 
-  @Query(value = "{ _id: { $in: [ :ids ] } }")
-  List<String> existsByIds(@Param("ids") List<String> ids);
 }

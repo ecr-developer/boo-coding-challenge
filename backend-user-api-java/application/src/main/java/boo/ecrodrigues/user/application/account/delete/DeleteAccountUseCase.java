@@ -5,7 +5,7 @@ import boo.ecrodrigues.user.domain.account.Account;
 import boo.ecrodrigues.user.domain.account.AccountGateway;
 import java.util.Objects;
 
-public class DeleteAccountUseCase extends UnitUseCase<Account> {
+public class DeleteAccountUseCase extends UnitUseCase<String> {
 
   private final AccountGateway accountGateway;
 
@@ -14,11 +14,11 @@ public class DeleteAccountUseCase extends UnitUseCase<Account> {
   }
 
   @Override
-  public void execute(final Account anAccount) {
-    if (anAccount == null) {
+  public void execute(final String anId) {
+    if (anId == null) {
       return;
     }
 
-    this.accountGateway.deleteById(anAccount);
+    this.accountGateway.deleteById(anId);
   }
 }

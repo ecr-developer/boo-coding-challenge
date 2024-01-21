@@ -39,7 +39,7 @@ public class DeleteAccountUseCaseIT {
 
     Assertions.assertEquals(1, accountRepository.count());
 
-    Assertions.assertDoesNotThrow(() -> useCase.execute(anAccount));
+    Assertions.assertDoesNotThrow(() -> useCase.execute(anAccount.getId().getValue()));
 
     final var actualAccount =
         accountRepository.findById(anAccount.getId().getValue()).get();
@@ -61,7 +61,7 @@ public class DeleteAccountUseCaseIT {
 
     Assertions.assertEquals(0, accountRepository.count());
 
-    Assertions.assertDoesNotThrow(() -> useCase.execute(anAccount));
+    Assertions.assertDoesNotThrow(() -> useCase.execute(anAccount.getId().getValue()));
 
     Assertions.assertEquals(0, accountRepository.count());
   }
@@ -71,11 +71,11 @@ public class DeleteAccountUseCaseIT {
     final var anAccount = Account.newAccount("A Martinez", true);
 
     doThrow(new IllegalStateException("Gateway error"))
-        .when(accountGateway).deleteById(eq(anAccount));
+        .when(accountGateway).deleteById(eq(anAccount.getId().getValue()));
 
-    Assertions.assertThrows(IllegalStateException.class, () -> useCase.execute(anAccount));
+    Assertions.assertThrows(IllegalStateException.class, () -> useCase.execute(anAccount.getId().getValue()));
 
-    Mockito.verify(accountGateway, times(1)).deleteById(eq(anAccount));
+    Mockito.verify(accountGateway, times(1)).deleteById(eq(anAccount.getId().getValue()));
   }
 
   private void save(final Account... anAccount) {

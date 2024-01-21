@@ -9,7 +9,7 @@ public interface AccountGateway {
 
   Account create(Account anAccount);
 
-  void deleteById(Account anAccount);
+  void deleteById(String anId);
 
   Optional<Account> findById(AccountID anId);
 

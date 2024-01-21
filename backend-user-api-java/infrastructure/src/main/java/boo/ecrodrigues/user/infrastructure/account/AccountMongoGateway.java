@@ -1,10 +1,13 @@
 package boo.ecrodrigues.user.infrastructure.account;
 
+import static org.springframework.data.mongodb.core.query.Criteria.where;
+
 import boo.ecrodrigues.user.domain.account.Account;
 import boo.ecrodrigues.user.domain.account.AccountGateway;
 import boo.ecrodrigues.user.domain.account.AccountID;
 import boo.ecrodrigues.user.domain.pagination.Pagination;
 import boo.ecrodrigues.user.domain.pagination.SearchQuery;
+import boo.ecrodrigues.user.domain.utils.InstantUtils;
 import boo.ecrodrigues.user.infrastructure.account.persistence.AccountEntity;
 import boo.ecrodrigues.user.infrastructure.account.persistence.AccountRepository;
 import boo.ecrodrigues.user.infrastructure.configuration.DatabaseCollectionsConfig;
@@ -15,16 +18,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.SerializationUtils;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.CollectionUtils;
 
 @Repository
 public class AccountMongoGateway implements AccountGateway {
@@ -33,8 +36,6 @@ public class AccountMongoGateway implements AccountGateway {
 
   private static final String ACCOUNT_ID = "_id";
   private static final String ACTIVE = "active";
-
-  private static final String CASE_INSENSITIVE = "i";
 
   private final MongoTemplate mongoTemplate;
 
@@ -66,15 +67,14 @@ public class AccountMongoGateway implements AccountGateway {
   }
 
   @Override
-  public void deleteById(Account anAccount) {
-    final String anIdValue = anAccount.getId().getValue();
+  public void deleteById(final String anId) {
     final Query query = new Query();
-    query.addCriteria(Criteria.where(ACCOUNT_ID).is(anIdValue));
+    query.addCriteria(where(ACCOUNT_ID).is(anId));
 
     final var update = new Update();
     update.set(ACTIVE, Boolean.FALSE);
-    update.set("updatedAt", anAccount.getUpdatedAt());
-    update.set("deletedAt", anAccount.getDeletedAt());
+    update.set("updatedAt", InstantUtils.now());
+    update.set("deletedAt", InstantUtils.now());
 
     final String collectionName = collectionsConfig.getAccount();
     mongoTemplate.findAndModify(query, update, AccountEntity.class, collectionName);
