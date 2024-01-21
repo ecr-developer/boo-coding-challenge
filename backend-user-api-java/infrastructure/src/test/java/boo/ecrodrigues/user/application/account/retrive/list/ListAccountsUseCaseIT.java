@@ -103,7 +103,7 @@ public class ListAccountsUseCaseIT {
       final int expectedPerPage,
       final int expectedItemsCount,
       final long expectedTotal,
-      final String expectedCategoryName
+      final String expectedAccountName
   ) {
     final var expectedTerms = "";
 
@@ -116,7 +116,7 @@ public class ListAccountsUseCaseIT {
     Assertions.assertEquals(expectedPage, actualResult.currentPage());
     Assertions.assertEquals(expectedPerPage, actualResult.perPage());
     Assertions.assertEquals(expectedTotal, actualResult.total());
-    Assertions.assertEquals(expectedCategoryName, actualResult.items().get(0).name());
+    Assertions.assertEquals(expectedAccountName, actualResult.items().get(0).name());
   }
 
   @ParameterizedTest
