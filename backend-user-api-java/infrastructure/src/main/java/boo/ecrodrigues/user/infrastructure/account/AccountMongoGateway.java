@@ -8,16 +8,22 @@ import boo.ecrodrigues.user.domain.pagination.SearchQuery;
 import boo.ecrodrigues.user.infrastructure.account.persistence.AccountEntity;
 import boo.ecrodrigues.user.infrastructure.account.persistence.AccountRepository;
 import boo.ecrodrigues.user.infrastructure.configuration.DatabaseCollectionsConfig;
+import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -25,10 +31,10 @@ public class AccountMongoGateway implements AccountGateway {
 
   private static final Logger logger = LoggerFactory.getLogger(AccountMongoGateway.class);
 
-  private static final String ACCOUNT_ID = "accountId";
+  private static final String ACCOUNT_ID = "_id";
   private static final String ACTIVE = "active";
 
-  private static final String DELETED_FIELD_NAME = "deletedAt";
+  private static final String CASE_INSENSITIVE = "i";
 
   private final MongoTemplate mongoTemplate;
 
@@ -83,30 +89,19 @@ public class AccountMongoGateway implements AccountGateway {
   @Override
   public Pagination<Account> findAll(SearchQuery aQuery) {
     // Pagination
-    final var pageRequest = PageRequest.of(
+    final var page = PageRequest.of(
         aQuery.page(),
-        aQuery.perPage()
+        aQuery.perPage(),
+        Sort.by(Direction.fromString(aQuery.direction()), aQuery.sort())
     );
 
-    // Dynamic search using terms (name or description)
-    final var query = new Query();
-    Optional.ofNullable(aQuery.terms())
-        .filter(str -> !str.isBlank())
-        .ifPresent(str -> {
-          Criteria nameCriteria = Criteria.where("name").regex(str, "i");
-          query.addCriteria(new Criteria().orOperator(nameCriteria));
-        });
-
-    query.with(pageRequest);
-
-    final var pageResult = mongoTemplate.find(query, AccountEntity.class);
-    long totalCount = mongoTemplate.count(query, AccountEntity.class);
+    Page<AccountEntity> pageResult = accountRepository.findByNameRegexIgnoreCase("^" + aQuery.terms(), page);
 
     return new Pagination<>(
-        pageRequest.getPageNumber(),
-        pageRequest.getPageSize(),
-        totalCount,
-        pageResult.stream().map(AccountEntity::toAggregate).toList()
+        pageResult.getNumber(),
+        pageResult.getSize(),
+        pageResult.getTotalElements(),
+        pageResult.map(AccountEntity::toAggregate).toList()
     );
   }
 }
