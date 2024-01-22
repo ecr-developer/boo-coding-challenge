@@ -34,11 +34,11 @@ public class DeleteAccountUseCaseTest extends UseCaseTest {
     final var anAccount = Account.newAccount("A Martinez", true);
 
     doNothing()
-        .when(accountGateway).deleteById(eq(anAccount));
+        .when(accountGateway).deleteById(eq(anAccount.getId().getValue()));
 
-    Assertions.assertDoesNotThrow(() -> useCase.execute(anAccount));
+    Assertions.assertDoesNotThrow(() -> useCase.execute(anAccount.getId().getValue()));
 
-    Mockito.verify(accountGateway, times(1)).deleteById(eq(anAccount));
+    Mockito.verify(accountGateway, times(1)).deleteById(eq(anAccount.getId().getValue()));
   }
 
   @Test
@@ -54,11 +54,11 @@ public class DeleteAccountUseCaseTest extends UseCaseTest {
 
 
     doNothing()
-        .when(accountGateway).deleteById(eq(anAccount));
+        .when(accountGateway).deleteById(eq(anAccount.getId().getValue()));
 
-    Assertions.assertDoesNotThrow(() -> useCase.execute(anAccount));
+    Assertions.assertDoesNotThrow(() -> useCase.execute(anAccount.getId().getValue()));
 
-    Mockito.verify(accountGateway, times(1)).deleteById(eq(anAccount));
+    Mockito.verify(accountGateway, times(1)).deleteById(eq(anAccount.getId().getValue()));
   }
 
   @Test
@@ -66,10 +66,10 @@ public class DeleteAccountUseCaseTest extends UseCaseTest {
     final var anAccount = Account.newAccount("A Martinez", true);
 
     doThrow(new IllegalStateException("Gateway error"))
-        .when(accountGateway).deleteById(eq(anAccount));
+        .when(accountGateway).deleteById(eq(anAccount.getId().getValue()));
 
-    Assertions.assertThrows(IllegalStateException.class, () -> useCase.execute(anAccount));
+    Assertions.assertThrows(IllegalStateException.class, () -> useCase.execute(anAccount.getId().getValue()));
 
-    Mockito.verify(accountGateway, times(1)).deleteById(eq(anAccount));
+    Mockito.verify(accountGateway, times(1)).deleteById(eq(anAccount.getId().getValue()));
   }
 }

@@ -18,7 +18,7 @@ public class AccountEntity {
 
   @Indexed(name = "_id_")
   @Id
-  private String accountId;
+  private String id;
   private String name;
   private boolean active;
   private Instant createdAt;
@@ -29,14 +29,14 @@ public class AccountEntity {
   }
 
   private AccountEntity(
-      final String accountId,
+      final String id,
       final String name,
       final boolean active,
       final Instant createdAt,
       final Instant updatedAt,
       final Instant deletedAt
   ) {
-    this.accountId = accountId;
+    this.id = id;
     this.name = name;
     this.active = active;
     this.createdAt = createdAt;
@@ -57,7 +57,7 @@ public class AccountEntity {
 
   public Account toAggregate() {
     return Account.with(
-        AccountID.from(getAccountId()),
+        AccountID.from(getId()),
         getName(),
         isActive(),
         getCreatedAt(),
@@ -66,12 +66,12 @@ public class AccountEntity {
     );
   }
 
-  public String getAccountId() {
-    return accountId;
+  public String getId() {
+    return id;
   }
 
-  public void setAccountId(String accountId) {
-    this.accountId = accountId;
+  public void setId(String id) {
+    this.id = id;
   }
 
   public String getName() {

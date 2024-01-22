@@ -73,7 +73,7 @@ public class AccountMongoGatewayTest {
 
     final var actualEntity = accountRepository.findById(anAccount.getId().getValue()).get();
 
-    Assertions.assertEquals(anAccount.getId().getValue(), actualEntity.getAccountId());
+    Assertions.assertEquals(anAccount.getId().getValue(), actualEntity.getId());
     Assertions.assertEquals(expectedName, actualEntity.getName());
     Assertions.assertEquals(expectedIsActive, actualEntity.isActive());
     Assertions.assertEquals(anAccount.getCreatedAt(), actualEntity.getCreatedAt());
@@ -117,7 +117,7 @@ public class AccountMongoGatewayTest {
 
     final var actualEntity = accountRepository.findById(anAccount.getId().getValue()).get();
 
-    Assertions.assertEquals(anAccount.getId().getValue(), actualEntity.getAccountId());
+    Assertions.assertEquals(anAccount.getId().getValue(), actualEntity.getId());
     Assertions.assertEquals(expectedName, actualEntity.getName());
     Assertions.assertEquals(expectedIsActive, actualEntity.isActive());
     Assertions.assertEquals(anAccount.getCreatedAt(), actualEntity.getCreatedAt());
@@ -142,7 +142,7 @@ public class AccountMongoGatewayTest {
 
     final var actualEntity = accountRepository.findById(anAccount.getId().getValue()).get();
 
-    Assertions.assertEquals(anAccount.getId().getValue(), actualEntity.getAccountId());
+    Assertions.assertEquals(anAccount.getId().getValue(), actualEntity.getId());
     Assertions.assertEquals(anAccount.getName(), actualEntity.getName());
     Assertions.assertEquals(false, actualEntity.isActive());
   }

@@ -2,7 +2,6 @@ logging:
   level:
     ROOT: DEBUG
     org.springframework.data.mongodb.core.MongoTemplate: DEBUG
-    de.flapdoodle.embed:de.flapdoodle.embed.mongo: DEBUG
 
 server:
   port: 8080
@@ -10,3 +9,10 @@ server:
     threads:
       worker: 12
       io: 4
+
+spring:
+  devtools:
+    restart:
+      enabled: false
+
+swaggerBaseUrl: http://localhost:8080

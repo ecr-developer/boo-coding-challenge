@@ -26,10 +26,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.SerializationUtils;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
-@Repository
+@Component
 public class AccountMongoGateway implements AccountGateway {
 
   private static final Logger logger = LoggerFactory.getLogger(AccountMongoGateway.class);

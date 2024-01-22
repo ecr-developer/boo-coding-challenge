@@ -2,6 +2,9 @@ package boo.ecrodrigues.user.infrastructure.configuration;
 
 import boo.ecrodrigues.user.infrastructure.account.persistence.AccountEntity;
 import com.google.common.collect.ImmutableList;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +13,6 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.ReadingConverter;
 import org.springframework.data.convert.WritingConverter;
@@ -27,13 +29,8 @@ import org.springframework.data.mongodb.core.index.IndexResolver;
 import org.springframework.data.mongodb.core.index.MongoPersistentEntityIndexResolver;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.util.Date;
-
 @Configuration
 @Import(value = MongoAutoConfiguration.class)
-@Profile("!integrationTest")
 public class MongoConfig {
 
   private static final Logger logger = LoggerFactory.getLogger(MongoConfig.class);

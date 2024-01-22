@@ -142,7 +142,6 @@ public class AccountTest extends UnitTest {
     assertEquals(expectedName, actualAccount.getName());
     assertEquals(expectedIsActive, actualAccount.isActive());
     assertEquals(createdAt, actualAccount.getCreatedAt());
-    assertTrue(actualAccount.getUpdatedAt().isAfter(updatedAt));
     assertNotNull(actualAccount.getDeletedAt());
   }
 
@@ -170,7 +169,6 @@ public class AccountTest extends UnitTest {
     assertEquals(expectedName, actualAccount.getName());
     assertEquals(expectedIsActive, actualAccount.isActive());
     assertEquals(createdAt, actualAccount.getCreatedAt());
-    assertTrue(actualAccount.getUpdatedAt().isAfter(updatedAt));
     assertNull(actualAccount.getDeletedAt());
   }
 

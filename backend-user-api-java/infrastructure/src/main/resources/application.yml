@@ -4,8 +4,9 @@ logging:
 
 server:
   port: 8081
-  http2:
-    enabled: true
+  servlet:
+    context-path: /api
+  shutdown: graceful
   compression:
     enabled: true # Whether response compression is enabled.
     mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json # Comma-separated list of MIME types that should be compressed.
@@ -18,14 +19,20 @@ server:
 spring:
   application:
     name: boo-user-service
-  lifecycle:
-    timeout-per-shutdown-phase: ${SPRING_TIMEOUT_SHUTDOWN_PHASE:18s}
-  main:
-    allow-bean-definition-overriding: true
   data:
     mongodb:
       uri: ${MONGODB_CONNECTION_STRING:mongodb://localhost:27017/}
       database: ${MONGODB_DATABASE:BooWorld}
+    web:
+      pageable:
+        page-parameter: page
+        size-parameter: pageSize
+        default-page-size: 1
+        max-page-size: 500
+  servlet:
+    multipart:
+      max-file-size: 10GB # Max file size.
+      max-request-size: 100GB # Max request size.
 
 database:
   queryTimeoutMS: ${QUERY_TIMEOUT_MS:20000}
@@ -33,46 +40,12 @@ database:
     account: Accounts
 
 # Swagger configurations
-swagger:
-  url: ${SWAGGER_BASE_URL:http://localhost:${server.port}}
-  username: ${SWAGGER_USERNAME:boo}
-  password: ${SWAGGER_PASSWORD:boo}
+swaggerBaseUrl: ${SWAGGER_BASE_URL:http://localhost:8081}
 
 springdoc:
-  api-docs:
-    enabled: ${SWAGGER_API_DOCS_ENABLED:true}
+  default-produces-media-type: application/json
   swagger-ui:
-    url: ${swagger.url}/v1/api-docs
-    configUrl: ${swagger.url}/v1/api-docs/swagger-config
-    displayRequestDuration: false
-    validatorUrl: none
-
-# Enable the "/refresh" endpoint for dynamic configuration changes
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-    enabled-by-default: false
-  health:
-    mongo:
-      enabled: true
-    probes:
-      enabled: true
-    livenessState:
-      enabled: true
-    readinessState:
-      enabled: true
-  endpoint:
-    info:
-      enabled: true
-    health:
-      show-components: always
-      enabled: true
-      probes:
-        enabled: true
-      group:
-        liveness:
-          include: livenessState, mongo
-        readiness:
-          include: readinessState, mongo
+    operationsSorter: method
+    tagsSorter: alpha
+  api-docs:
+    resolve-schema-properties: true
