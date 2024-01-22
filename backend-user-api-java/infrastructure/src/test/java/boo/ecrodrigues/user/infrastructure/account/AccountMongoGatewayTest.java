@@ -1,8 +1,5 @@
 package boo.ecrodrigues.user.infrastructure.account;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import boo.ecrodrigues.user.IntegrationTest;
 import boo.ecrodrigues.user.domain.account.Account;
 import boo.ecrodrigues.user.domain.account.AccountID;
@@ -11,22 +8,11 @@ import boo.ecrodrigues.user.infrastructure.account.persistence.AccountEntity;
 import boo.ecrodrigues.user.infrastructure.account.persistence.AccountRepository;
 import boo.ecrodrigues.user.infrastructure.configuration.DatabaseCollectionsConfig;
 import java.util.List;
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.support.PersistenceExceptionTranslator;
-import org.springframework.data.mongodb.MongoDatabaseFactory;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.convert.DbRefResolver;
-import org.springframework.data.mongodb.core.convert.DefaultDbRefResolver;
-import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
-import org.springframework.data.mongodb.core.convert.MongoConverter;
-import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
 @IntegrationTest
 public class AccountMongoGatewayTest {

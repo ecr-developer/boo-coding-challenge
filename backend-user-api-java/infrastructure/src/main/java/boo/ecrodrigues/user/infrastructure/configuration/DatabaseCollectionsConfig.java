@@ -7,13 +7,13 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "database.collections")
 public class DatabaseCollectionsConfig {
 
+  private String account;
+
   public String getAccount() {
     return account;
   }
 
-  public void setAccount(String account) {
+  public void setAccount(final String account) {
     this.account = account;
   }
-
-  private String account;
 }

@@ -11,7 +11,6 @@ import boo.ecrodrigues.user.domain.utils.InstantUtils;
 import boo.ecrodrigues.user.infrastructure.account.persistence.AccountEntity;
 import boo.ecrodrigues.user.infrastructure.account.persistence.AccountRepository;
 import boo.ecrodrigues.user.infrastructure.configuration.DatabaseCollectionsConfig;
-import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +20,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.SerializationUtils;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
-import org.springframework.util.CollectionUtils;
 
 @Component
 public class AccountMongoGateway implements AccountGateway {
