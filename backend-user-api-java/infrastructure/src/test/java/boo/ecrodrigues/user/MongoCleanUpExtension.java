@@ -1,6 +1,7 @@
 package boo.ecrodrigues.user;
 
 import boo.ecrodrigues.user.infrastructure.account.persistence.AccountRepository;
+import boo.ecrodrigues.user.infrastructure.comment.persistence.CommentRepository;
 import java.util.Collection;
 import java.util.List;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
@@ -15,7 +16,8 @@ public class MongoCleanUpExtension implements BeforeEachCallback {
     final var appContext = SpringExtension.getApplicationContext(context);
 
     cleanUp(List.of(
-        appContext.getBean(AccountRepository.class)
+        appContext.getBean(AccountRepository.class),
+        appContext.getBean(CommentRepository.class)
     ));
   }
 
