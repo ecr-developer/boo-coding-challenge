@@ -158,7 +158,7 @@ public class Comment extends AggregateRoot<CommentID> {
 
   @Override
   public void validate(ValidationHandler handler) {
-//    new CommentValidator(this, handler).validate();
+    new CommentValidator(this, handler).validate();
   }
 
   private void selfValidate() {
