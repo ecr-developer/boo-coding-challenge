@@ -13,6 +13,6 @@ public interface CommentGateway {
 
   Optional<Comment> findById(CommentID anId);
 
-  Pagination<Comment> findAll(Set<String> commentIds, Set<String> existingFields, SearchQuery aQuery);
+  Pagination<Comment> findAll(SearchQuery aQuery);
 
 }
