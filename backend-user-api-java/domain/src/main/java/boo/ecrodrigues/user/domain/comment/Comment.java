@@ -60,6 +60,22 @@ public class Comment extends AggregateRoot<CommentID> {
       final AccountID anAccountId,
       final String aTitle,
       final String aComment,
+      final MBTI aMbti,
+      final Enneagram anEnneagram,
+      final Zodiac aZodiac,
+      final Integer aLike,
+      final Instant aCreatedAt,
+      final Instant anUpdatedAt
+  ) {
+    return new Comment(anId, anAccountId, aTitle, aComment, aMbti, anEnneagram, aZodiac, aLike, aCreatedAt, anUpdatedAt);
+  }
+
+  public static Comment with(
+      final CommentID anId,
+      final AccountID anAccountId,
+      final String aTitle,
+      final String aComment,
+
       final Instant aCreationDate,
       final Instant anUpdateDate
   ) {
