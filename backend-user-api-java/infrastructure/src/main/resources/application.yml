@@ -38,6 +38,7 @@ database:
   queryTimeoutMS: ${QUERY_TIMEOUT_MS:20000}
   collections:
     account: Accounts
+    comment: Comments
 
 # Swagger configurations
 swaggerBaseUrl: ${SWAGGER_BASE_URL:http://localhost:8081}
