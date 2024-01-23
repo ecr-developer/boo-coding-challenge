@@ -6,7 +6,7 @@ import boo.ecrodrigues.user.domain.exceptions.NotificationException;
 import boo.ecrodrigues.user.domain.validation.handler.Notification;
 import java.util.Objects;
 
-public class DefaultCreateCommentUseCase extends CreateCommentUseCase {
+public non-sealed class DefaultCreateCommentUseCase extends CreateCommentUseCase {
 
   private final CommentGateway commentGateway;
 
