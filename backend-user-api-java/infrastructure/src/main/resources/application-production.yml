@@ -1,0 +1,52 @@
+logging:
+  level:
+    ROOT: ${LOG_ROOT_LEVEL:INFO}
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+  shutdown: graceful
+  compression:
+    enabled: true # Whether response compression is enabled.
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json # Comma-separated list of MIME types that should be compressed.
+    min-response-size: 1024 # Minimum "Content-Length" value that is required for compression to be performed.
+  undertow:
+    threads:
+      worker: 64 # Generally this should be reasonably high, at least 10 per CPU core: https://undertow.io/undertow-docs/undertow-docs-2.1.0/index.html#listeners-2
+      io: 4 # One IO thread per CPU core is a reasonable default: https://undertow.io/undertow-docs/undertow-docs-2.1.0/index.html#listeners-2
+
+spring:
+  application:
+    name: boo-user-service
+  data:
+    mongodb:
+      uri: ${MONGODB_CONNECTION_STRING:mongodb://localhost:27017/}
+      database: ${MONGODB_DATABASE:BooWorld}
+    web:
+      pageable:
+        page-parameter: page
+        size-parameter: pageSize
+        default-page-size: 1
+        max-page-size: 500
+  servlet:
+    multipart:
+      max-file-size: 10GB # Max file size.
+      max-request-size: 100GB # Max request size.
+
+database:
+  queryTimeoutMS: ${QUERY_TIMEOUT_MS:20000}
+  collections:
+    account: Accounts
+    comment: Comments
+
+# Swagger configurations
+swaggerBaseUrl: ${SWAGGER_BASE_URL:http://localhost:8081}
+
+springdoc:
+  default-produces-media-type: application/json
+  swagger-ui:
+    operationsSorter: method
+    tagsSorter: alpha
+  api-docs:
+    resolve-schema-properties: true

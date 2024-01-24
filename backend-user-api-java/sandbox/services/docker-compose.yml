@@ -11,11 +11,26 @@ services:
     security_opt:
       - seccomp:unconfined
     ports:
-      - 3306:3306
+      - '27017:27017'
     volumes:
       - ../../../.docker/data/db:/data/db:rw
     networks:
       - adm_boo_services
+
+  app:
+    container_name: adm_boo_app
+    build:
+      context: ../../
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    env_file:
+      - .env.local
+    ports:
+      - 8080:8080
+    networks:
+      - adm_boo_services
+    depends_on:
+      - mongo
 
 networks:
   adm_boo_services:
