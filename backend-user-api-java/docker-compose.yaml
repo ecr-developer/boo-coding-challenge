@@ -14,8 +14,6 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-#      - ../.docker/data/db:/data/db
-      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - ../mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     ports:
       - '27017:27017'
-#    command: mongod --logpath=/dev/null # --quiet

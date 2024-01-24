@@ -1,0 +1,22 @@
+version: '3.7'
+
+services:
+
+  mongo:
+    container_name: adm_boo_mongo
+    image: mongo:4.4.20
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - 3306:3306
+    volumes:
+      - ../../../.docker/data/db:/data/db:rw
+    networks:
+      - adm_boo_services
+
+networks:
+  adm_boo_services:
+    external: true

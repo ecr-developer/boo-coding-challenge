@@ -3,7 +3,7 @@ logging:
     ROOT: ${LOG_ROOT_LEVEL:INFO}
 
 server:
-  port: 8081
+  port: 8080
   servlet:
     context-path: /api
   shutdown: graceful
