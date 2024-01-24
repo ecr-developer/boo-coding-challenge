@@ -1,9 +1,9 @@
 package boo.ecrodrigues.user.domain.comment;
 
+import boo.ecrodrigues.user.domain.pagination.Fields;
 import boo.ecrodrigues.user.domain.pagination.Pagination;
 import boo.ecrodrigues.user.domain.pagination.SearchQuery;
 import java.util.Optional;
-import java.util.Set;
 
 public interface CommentGateway {
 
@@ -13,6 +13,5 @@ public interface CommentGateway {
 
   Optional<Comment> findById(CommentID anId);
 
-  Pagination<Comment> findAll(SearchQuery aQuery);
-
+  Pagination<Comment> findAll(SearchQuery aQuery, Fields fields);
 }

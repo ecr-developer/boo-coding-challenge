@@ -9,6 +9,7 @@ import boo.ecrodrigues.user.application.UseCaseTest;
 import boo.ecrodrigues.user.domain.account.AccountID;
 import boo.ecrodrigues.user.domain.comment.Comment;
 import boo.ecrodrigues.user.domain.comment.CommentGateway;
+import boo.ecrodrigues.user.domain.pagination.Fields;
 import boo.ecrodrigues.user.domain.pagination.Pagination;
 import boo.ecrodrigues.user.domain.pagination.SearchQuery;
 import java.util.List;
@@ -56,14 +57,16 @@ public class ListCommentUseCaseTest extends UseCaseTest {
         comments
     );
 
-    when(commentGateway.findAll(any()))
+    when(commentGateway.findAll(any(), any()))
         .thenReturn(expectedPagination);
 
     final var aQuery =
         new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
+    final var aFields = new Fields(null, null, null);
+
     // when
-    final var actualOutput = useCase.execute(aQuery);
+    final var actualOutput = useCase.execute(aQuery, aFields);
 
     // then
     Assertions.assertEquals(expectedPage, actualOutput.currentPage());
@@ -71,7 +74,7 @@ public class ListCommentUseCaseTest extends UseCaseTest {
     Assertions.assertEquals(expectedTotal, actualOutput.total());
     Assertions.assertEquals(expectedItems, actualOutput.items());
 
-    verify(commentGateway).findAll(eq(aQuery));
+    verify(commentGateway).findAll(eq(aQuery), eq(aFields));
   }
 
   @Test
@@ -94,14 +97,16 @@ public class ListCommentUseCaseTest extends UseCaseTest {
         comments
     );
 
-    when(commentGateway.findAll(any()))
+    when(commentGateway.findAll(any(), any()))
         .thenReturn(expectedPagination);
 
     final var aQuery =
         new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
+    final var aFields = new Fields(null, null, null);
+
     // when
-    final var actualOutput = useCase.execute(aQuery);
+    final var actualOutput = useCase.execute(aQuery, aFields);
 
     // then
     Assertions.assertEquals(expectedPage, actualOutput.currentPage());
@@ -109,7 +114,7 @@ public class ListCommentUseCaseTest extends UseCaseTest {
     Assertions.assertEquals(expectedTotal, actualOutput.total());
     Assertions.assertEquals(expectedItems, actualOutput.items());
 
-    verify(commentGateway).findAll(eq(aQuery));
+    verify(commentGateway).findAll(eq(aQuery), eq(aFields));
   }
 
   @Test
@@ -123,20 +128,23 @@ public class ListCommentUseCaseTest extends UseCaseTest {
 
     final var expectedErrorMessage = "Gateway error";
 
-    when(commentGateway.findAll(any()))
+    when(commentGateway.findAll(any(), any()))
         .thenThrow(new IllegalStateException(expectedErrorMessage));
 
     final var aQuery =
         new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
+    final var aFields = new Fields(null, null, null);
+
     // when
     final var actualException = Assertions.assertThrows(IllegalStateException.class, () -> {
-      useCase.execute(aQuery);
+      useCase.execute(aQuery, aFields);
     });
 
     // then
     Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
 
-    verify(commentGateway).findAll(eq(aQuery));
+    verify(commentGateway).findAll(eq(aQuery), eq(aFields));
   }
+
 }
