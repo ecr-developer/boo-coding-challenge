@@ -21,6 +21,7 @@ public class CommentValidator extends Validator {
   @Override
   public void validate() {
     checkTitleConstraints();
+    checkPersonalityType();
     checkCommentConstraints();
   }
 
@@ -39,6 +40,27 @@ public class CommentValidator extends Validator {
     final int length = title.trim().length();
     if (length > TITLE_MAX_LENGTH || length < TITLE_MIN_LENGTH) {
       this.validationHandler().append(new Error("'title' must be between 3 and 255 characters"));
+    }
+  }
+
+  private void checkPersonalityType() {
+    final var mbti = this.comment.getMbti();
+    final var enneagram = this.comment.getEnneagram();
+    final var zodiac = this.comment.getZodiac();
+
+    if (mbti == null) {
+      this.validationHandler().append(new Error("'mbti' should not be null"));
+      return;
+    }
+
+    if (enneagram == null) {
+      this.validationHandler().append(new Error("'enneagram' should not be null"));
+      return;
+    }
+
+    if (zodiac == null) {
+      this.validationHandler().append(new Error("'zodiac' should not be null"));
+      return;
     }
   }
 

@@ -6,9 +6,6 @@ import boo.ecrodrigues.user.domain.comment.Zodiac;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record UpdateCommentRequest(
-    @JsonProperty("mbti") MBTI mbti,
-    @JsonProperty("enneagram") Enneagram enneagram,
-    @JsonProperty("zodiac") Zodiac zodiac,
     @JsonProperty("like") Integer like
 ) {
 }

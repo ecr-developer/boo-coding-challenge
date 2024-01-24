@@ -58,11 +58,21 @@ public class CommentAPITest {
     final var expectedAccountID = AccountID.unique();
     final var expectedTitle = "Title Celebrety test";
     final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
+    final var aComment = Comment.newComment(
+        expectedAccountID,
+        expectedTitle,
+        expectedComment,
+        expectedMbti,
+        expectedEnneagram,
+        expectedZodiac
+    );
 
     final var aCommand =
-        new CreateCommentRequest(expectedAccountID.getValue(), expectedTitle, expectedComment);
+        new CreateCommentRequest(expectedAccountID.getValue(), expectedTitle, expectedComment, expectedMbti, expectedEnneagram, expectedZodiac);
 
     when(createCommentUseCase.execute(any()))
         .thenReturn(CreateCommentOutput.from(aComment));
@@ -93,12 +103,22 @@ public class CommentAPITest {
     final var expectedAccountID = AccountID.unique();
     final var expectedTitle = "Title Celebrety test";
     final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
+    final var aComment = Comment.newComment(
+        expectedAccountID,
+        expectedTitle,
+        expectedComment,
+        expectedMbti,
+        expectedEnneagram,
+        expectedZodiac
+    );
     final var expectedId = aComment.getId();
 
     final var aCommand =
-        new UpdateCommentRequest(MBTI.ESTJ, Enneagram.E_4W3, Zodiac.Gemini, 0);
+        new UpdateCommentRequest(1);
 
     when(updateCommentUseCase.execute(any()))
         .thenReturn(UpdateCommentOutput.from(aComment));
@@ -127,8 +147,18 @@ public class CommentAPITest {
     final var expectedAccountID = AccountID.unique();
     final var expectedTitle = "Title Celebrety test";
     final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
+    final var aComment = Comment.newComment(
+        expectedAccountID,
+        expectedTitle,
+        expectedComment,
+        expectedMbti,
+        expectedEnneagram,
+        expectedZodiac
+    );
 
     final var expectedPage = 1;
     final var expectedPerPage = 20;

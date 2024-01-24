@@ -9,6 +9,9 @@ import boo.ecrodrigues.user.application.UseCaseTest;
 import boo.ecrodrigues.user.domain.account.AccountID;
 import boo.ecrodrigues.user.domain.comment.Comment;
 import boo.ecrodrigues.user.domain.comment.CommentGateway;
+import boo.ecrodrigues.user.domain.comment.Enneagram;
+import boo.ecrodrigues.user.domain.comment.MBTI;
+import boo.ecrodrigues.user.domain.comment.Zodiac;
 import boo.ecrodrigues.user.domain.pagination.Fields;
 import boo.ecrodrigues.user.domain.pagination.Pagination;
 import boo.ecrodrigues.user.domain.pagination.SearchQuery;
@@ -35,8 +38,22 @@ public class ListCommentUseCaseTest extends UseCaseTest {
   public void givenAValidQuery_whenCallsListComments_shouldReturnAll() {
     // given
     final var comments = List.of(
-        Comment.newComment(AccountID.unique(), "Title Celebrety test", "Comment Celebrety test ..."),
-        Comment.newComment(AccountID.unique(), "Title Celebrety test 2", "Comment Celebrety test 2 ...")
+        Comment.newComment(
+            AccountID.unique(),
+            "Title Celebrety test",
+            "Comment Celebrety test ...",
+            MBTI.ESTJ,
+            Enneagram.E_4W3,
+            Zodiac.Gemini
+        ),
+        Comment.newComment(
+            AccountID.unique(),
+            "Title Celebrety test 2",
+            "Comment Celebrety test 2 ...",
+            MBTI.ESTJ,
+            Enneagram.E_4W3,
+            Zodiac.Libra
+        )
     );
 
     final var expectedPage = 0;

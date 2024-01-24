@@ -19,10 +19,20 @@ public non-sealed class DefaultCreateCommentUseCase extends CreateCommentUseCase
     final var anAccountId = aComment.accountId();
     final var aTitle = aComment.title();
     final var acomment = aComment.comment();
+    final var aMbti = aComment.mbti();
+    final var anEnneagram = aComment.enneagram();
+    final var aZodiac = aComment.zodiac();
 
     final var notification = Notification.create();
 
-    final var aNewComment = notification.validate(() -> Comment.newComment(anAccountId, aTitle, acomment));
+    final var aNewComment = notification.validate(() -> Comment.newComment(
+        anAccountId,
+        aTitle,
+        acomment,
+        aMbti,
+        anEnneagram,
+        aZodiac
+    ));
 
     if (notification.hasError()) {
       notify(notification);

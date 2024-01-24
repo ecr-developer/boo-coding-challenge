@@ -48,11 +48,14 @@ public class Comment extends AggregateRoot<CommentID> {
   public static Comment newComment(
       final AccountID anAccountId,
       final String aTitle,
-      final String aComment
+      final String aComment,
+      final MBTI aMbti,
+      final Enneagram anEnneagram,
+      final Zodiac aZodiac
   ) {
     final var anId = CommentID.unique();
     final var now = InstantUtils.now();
-    return new Comment(anId, anAccountId, aTitle, aComment, null, null, null, 0, now, now);
+    return new Comment(anId, anAccountId, aTitle, aComment, aMbti, anEnneagram, aZodiac, 0, now, now);
   }
 
   public static Comment with(
@@ -75,11 +78,11 @@ public class Comment extends AggregateRoot<CommentID> {
       final AccountID anAccountId,
       final String aTitle,
       final String aComment,
-
-      final Instant aCreationDate,
-      final Instant anUpdateDate
+      final MBTI aMbti,
+      final Enneagram anEnneagram,
+      final Zodiac aZodiac
   ) {
-    return new Comment(anId, anAccountId, aTitle, aComment, null, null, null, 0, aCreationDate, anUpdateDate);
+    return new Comment(anId, anAccountId, aTitle, aComment, aMbti, anEnneagram, aZodiac, 0, InstantUtils.now(), InstantUtils.now());
   }
 
   public static Comment with(final Comment aComment) {
@@ -98,21 +101,10 @@ public class Comment extends AggregateRoot<CommentID> {
   }
 
   public Comment update(
-      final MBTI aMbti,
-      final Enneagram anEnneagram,
-      final Zodiac aZodiac
-  ) {
-    this.mbti = aMbti;
-    this.enneagram = anEnneagram;
-    this.zodiac = aZodiac;
-    this.updatedAt = InstantUtils.now();
-    selfValidate();
-    return this;
-  }
-
-  public Comment update(
       final Integer aLike
   ) {
+    this.updatedAt = InstantUtils.now();
+
     if(aLike > 0) {
       like();
     } else {

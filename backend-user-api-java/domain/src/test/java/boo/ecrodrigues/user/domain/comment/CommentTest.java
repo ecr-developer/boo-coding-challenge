@@ -13,139 +13,29 @@ public class CommentTest  extends UnitTest {
     final var expectedAccountID = AccountID.unique();
     final var expectedTitle = "Title Celebrety test";
     final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
-    final var actualComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
+    final var actualComment = Comment.newComment(
+        expectedAccountID,
+        expectedTitle,
+        expectedComment,
+        expectedMbti,
+        expectedEnneagram,
+        expectedZodiac
+    );
 
     Assertions.assertNotNull(actualComment);
     Assertions.assertNotNull(actualComment.getId());
     Assertions.assertEquals(expectedAccountID, actualComment.getAccountId());
     Assertions.assertEquals(expectedTitle, actualComment.getTitle());
     Assertions.assertEquals(expectedComment, actualComment.getComment());
+    Assertions.assertEquals(expectedMbti, actualComment.getMbti());
+    Assertions.assertEquals(expectedEnneagram, actualComment.getEnneagram());
+    Assertions.assertEquals(expectedZodiac, actualComment.getZodiac());
     Assertions.assertNotNull(actualComment.getCreatedAt());
     Assertions.assertNotNull(actualComment.getUpdatedAt());
-  }
-
-  @Test
-  public void givenAValidParams_whenCallsUpdateComment_thenInstantiateAComment() {
-    final var expectedAccountID = AccountID.unique();
-    final var expectedTitle = "Title Celebrety test";
-    final var expectedComment = "Comment Celebrety test ...";
-    final var expectedMbti = MBTI.ENTP;
-    final var expectedEnneagram = Enneagram.E_4W3;
-    final var expectedZodiac = Zodiac.Gemini;
-
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
-
-    Assertions.assertNotNull(aComment);
-    Assertions.assertNotNull(aComment.getId());
-    Assertions.assertEquals(expectedAccountID, aComment.getAccountId());
-    Assertions.assertEquals(expectedTitle, aComment.getTitle());
-    Assertions.assertEquals(expectedComment, aComment.getComment());
-    Assertions.assertNotNull(aComment.getCreatedAt());
-    Assertions.assertNotNull(aComment.getUpdatedAt());
-    Assertions.assertNull(aComment.getMbti());
-    Assertions.assertNull(aComment.getEnneagram());
-    Assertions.assertNull(aComment.getZodiac());
-
-    final var actualComment = aComment.update(expectedMbti, expectedEnneagram, expectedZodiac);
-
-    Assertions.assertNotNull(aComment.getMbti());
-    Assertions.assertNotNull(aComment.getEnneagram());
-    Assertions.assertNotNull(aComment.getZodiac());
-    Assertions.assertEquals(expectedMbti, aComment.getMbti());
-    Assertions.assertEquals(expectedEnneagram, aComment.getEnneagram());
-    Assertions.assertEquals(expectedZodiac, aComment.getZodiac());
-  }
-
-  @Test
-  public void givenAValidParams_whenCallsUpdateLikeComment_thenInstantiateAComment() {
-    final var expectedAccountID = AccountID.unique();
-    final var expectedTitle = "Title Celebrety test";
-    final var expectedComment = "Comment Celebrety test ...";
-    final var expectedMbti = MBTI.ENTP;
-    final var expectedEnneagram = Enneagram.E_4W3;
-    final var expectedZodiac = Zodiac.Gemini;
-    final var expectedLike = 1;
-
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
-
-    Assertions.assertNotNull(aComment);
-    Assertions.assertNotNull(aComment.getId());
-    Assertions.assertEquals(expectedAccountID, aComment.getAccountId());
-    Assertions.assertEquals(expectedTitle, aComment.getTitle());
-    Assertions.assertEquals(expectedComment, aComment.getComment());
-    Assertions.assertNotNull(aComment.getCreatedAt());
-    Assertions.assertNotNull(aComment.getUpdatedAt());
-    Assertions.assertNull(aComment.getMbti());
-    Assertions.assertNull(aComment.getEnneagram());
-    Assertions.assertNull(aComment.getZodiac());
-
-    final var actualComment = aComment.update(expectedMbti, expectedEnneagram, expectedZodiac);
-
-    Assertions.assertNotNull(aComment.getMbti());
-    Assertions.assertNotNull(aComment.getEnneagram());
-    Assertions.assertNotNull(aComment.getZodiac());
-    Assertions.assertEquals(expectedMbti, aComment.getMbti());
-    Assertions.assertEquals(expectedEnneagram, aComment.getEnneagram());
-    Assertions.assertEquals(expectedZodiac, aComment.getZodiac());
-
-    Assertions.assertEquals(0, aComment.getLike());
-
-    final var actualLikeComment = aComment.update(expectedLike);
-
-    Assertions.assertEquals(expectedLike, aComment.getLike());
-  }
-
-  @Test
-  public void givenAValidParams_whenCallsLikeMethod_thenShouldBeIncreaseALikeOnComment() {
-    final var expectedAccountID = AccountID.unique();
-    final var expectedTitle = "Title Celebrety test";
-    final var expectedComment = "Comment Celebrety test ...";
-    final var expectedLike = 1;
-
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
-
-    Assertions.assertNotNull(aComment);
-    Assertions.assertNotNull(aComment.getId());
-    Assertions.assertEquals(expectedAccountID, aComment.getAccountId());
-    Assertions.assertEquals(expectedTitle, aComment.getTitle());
-    Assertions.assertEquals(expectedComment, aComment.getComment());
-    Assertions.assertNotNull(aComment.getCreatedAt());
-    Assertions.assertNotNull(aComment.getUpdatedAt());
-    Assertions.assertNull(aComment.getMbti());
-    Assertions.assertNull(aComment.getEnneagram());
-    Assertions.assertNull(aComment.getZodiac());
-    Assertions.assertEquals(0, aComment.getLike());
-
-    final var actualComment = aComment.like();
-
-    Assertions.assertEquals(expectedLike, aComment.getLike());
-  }
-
-  @Test
-  public void givenAValidParams_whenCallsLikeMethod_thenShouldBeDecreaseADislikeOnCommentIfZeroDoesNothing() {
-    final var expectedAccountID = AccountID.unique();
-    final var expectedTitle = "Title Celebrety test";
-    final var expectedComment = "Comment Celebrety test ...";
-    final var expectedLike = 0;
-
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
-
-    Assertions.assertNotNull(aComment);
-    Assertions.assertNotNull(aComment.getId());
-    Assertions.assertEquals(expectedAccountID, aComment.getAccountId());
-    Assertions.assertEquals(expectedTitle, aComment.getTitle());
-    Assertions.assertEquals(expectedComment, aComment.getComment());
-    Assertions.assertNotNull(aComment.getCreatedAt());
-    Assertions.assertNotNull(aComment.getUpdatedAt());
-    Assertions.assertNull(aComment.getMbti());
-    Assertions.assertNull(aComment.getEnneagram());
-    Assertions.assertNull(aComment.getZodiac());
-    Assertions.assertEquals(0, aComment.getLike());
-
-    final var actualComment = aComment.dislike();
-
-    Assertions.assertEquals(expectedLike, actualComment.getLike());
   }
 
   @Test
@@ -153,13 +43,23 @@ public class CommentTest  extends UnitTest {
     final var expectedAccountID = AccountID.unique();
     final String expectedTitle = null;
     final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
     final var expectedErrorCount = 1;
     final var expectedErrorMessage = "'title' should not be null";
 
     final var actualException = Assertions.assertThrows(
         NotificationException.class,
-        () -> Comment.newComment(expectedAccountID, expectedTitle, expectedComment)
+        () -> Comment.newComment(
+            expectedAccountID,
+            expectedTitle,
+            expectedComment,
+            expectedMbti,
+            expectedEnneagram,
+            expectedZodiac
+        )
     );
 
     Assertions.assertNotNull(actualException);
@@ -172,13 +72,23 @@ public class CommentTest  extends UnitTest {
     final var expectedAccountID = AccountID.unique();
     final var expectedTitle = " ";
     final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
     final var expectedErrorCount = 1;
     final var expectedErrorMessage = "'title' should not be empty";
 
     final var actualException = Assertions.assertThrows(
         NotificationException.class,
-        () -> Comment.newComment(expectedAccountID, expectedTitle, expectedComment)
+        () -> Comment.newComment(
+            expectedAccountID,
+            expectedTitle,
+            expectedComment,
+            expectedMbti,
+            expectedEnneagram,
+            expectedZodiac
+        )
     );
 
     Assertions.assertNotNull(actualException);
@@ -195,13 +105,23 @@ public class CommentTest  extends UnitTest {
               Sed quis pretium purus, sollicitudin molestie enim. Nullam dolor.
               """;
     final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
     final var expectedErrorCount = 1;
     final var expectedErrorMessage = "'title' must be between 3 and 255 characters";
 
     final var actualException = Assertions.assertThrows(
         NotificationException.class,
-        () -> Comment.newComment(expectedAccountID, expectedTitle, expectedComment)
+        () -> Comment.newComment(
+            expectedAccountID,
+            expectedTitle,
+            expectedComment,
+            expectedMbti,
+            expectedEnneagram,
+            expectedZodiac
+        )
     );
 
     Assertions.assertNotNull(actualException);
@@ -214,13 +134,23 @@ public class CommentTest  extends UnitTest {
     final var expectedAccountID = AccountID.unique();
     final var expectedTitle = "Title Celebrety test";
     final String expectedComment = null;
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
     final var expectedErrorCount = 1;
     final var expectedErrorMessage = "'comment' should not be null";
 
     final var actualException = Assertions.assertThrows(
         NotificationException.class,
-        () -> Comment.newComment(expectedAccountID, expectedTitle, expectedComment)
+        () -> Comment.newComment(
+            expectedAccountID,
+            expectedTitle,
+            expectedComment,
+            expectedMbti,
+            expectedEnneagram,
+            expectedZodiac
+        )
     );
 
     Assertions.assertNotNull(actualException);
@@ -233,13 +163,23 @@ public class CommentTest  extends UnitTest {
     final var expectedAccountID = AccountID.unique();
     final var expectedTitle = "Title Celebrety test";
     final var expectedComment = " ";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
     final var expectedErrorCount = 1;
     final var expectedErrorMessage = "'comment' should not be empty";
 
     final var actualException = Assertions.assertThrows(
         NotificationException.class,
-        () -> Comment.newComment(expectedAccountID, expectedTitle, expectedComment)
+        () -> Comment.newComment(
+            expectedAccountID,
+            expectedTitle,
+            expectedComment,
+            expectedMbti,
+            expectedEnneagram,
+            expectedZodiac
+        )
     );
 
     Assertions.assertNotNull(actualException);
@@ -260,16 +200,148 @@ public class CommentTest  extends UnitTest {
          Phasellus posuere tincidunt neque sit amet tincidunt. In hac habitasse platea dictumst. Morbi condimentum, ipsum nec malesuada elementum, elit ante pellentesque velit, sit amet dictum lectus lectus non velit. Pellentesque mattis magna non cursus gravida. Nullam in purus ac orci luctus vestibulum nec.
                 """;
 
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
+
     final var expectedErrorCount = 1;
     final var expectedErrorMessage = "'comment' must be between 3 and 4000 characters";
 
     final var actualException = Assertions.assertThrows(
         NotificationException.class,
-        () -> Comment.newComment(expectedAccountID, expectedTitle, expectedComment)
+        () -> Comment.newComment(
+            expectedAccountID,
+            expectedTitle,
+            expectedComment,
+            expectedMbti,
+            expectedEnneagram,
+            expectedZodiac
+        )
     );
 
     Assertions.assertNotNull(actualException);
     Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
     Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
+  }
+
+  @Test
+  public void givenAInvalidNullMbti_whenCallsNewComment_shouldReceiveANotification() {
+    final var expectedAccountID = AccountID.unique();
+    final var expectedTitle = "Title Celebrety test";
+    final var expectedComment = "Comment Celebrety test ...";
+
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
+
+    final var expectedErrorCount = 1;
+    final var expectedErrorMessage = "'mbti' should not be null";
+
+    final var actualException = Assertions.assertThrows(
+        NotificationException.class,
+        () -> Comment.newComment(
+            expectedAccountID,
+            expectedTitle,
+            expectedComment,
+            null,
+            expectedEnneagram,
+            expectedZodiac
+        )
+    );
+
+    Assertions.assertNotNull(actualException);
+    Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
+    Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
+  }
+
+  @Test
+  public void givenAInvalidNullEnneagram_whenCallsNewComment_shouldReceiveANotification() {
+    final var expectedAccountID = AccountID.unique();
+    final var expectedTitle = "Title Celebrety test";
+    final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
+
+    final var expectedErrorCount = 1;
+    final var expectedErrorMessage = "'enneagram' should not be null";
+
+    final var actualException = Assertions.assertThrows(
+        NotificationException.class,
+        () -> Comment.newComment(
+            expectedAccountID,
+            expectedTitle,
+            expectedComment,
+            expectedMbti,
+            null,
+            expectedZodiac
+        )
+    );
+
+    Assertions.assertNotNull(actualException);
+    Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
+    Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
+  }
+
+  @Test
+  public void givenAInvalidNullZodiac_whenCallsNewComment_shouldReceiveANotification() {
+    final var expectedAccountID = AccountID.unique();
+    final var expectedTitle = "Title Celebrety test";
+    final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
+
+    final var expectedErrorCount = 1;
+    final var expectedErrorMessage = "'zodiac' should not be null";
+
+    final var actualException = Assertions.assertThrows(
+        NotificationException.class,
+        () -> Comment.newComment(
+            expectedAccountID,
+            expectedTitle,
+            expectedComment,
+            expectedMbti,
+            expectedEnneagram,
+            null
+        )
+    );
+
+    Assertions.assertNotNull(actualException);
+    Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
+    Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
+  }
+
+  @Test
+  public void givenAValidComment_whenCallUpdate_shouldReceiveUpdated() {
+    final var expectedAccountID = AccountID.unique();
+    final var expectedTitle = "Title Celebrety test";
+    final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
+
+    final var actualComment = Comment.newComment(
+        expectedAccountID,
+        expectedTitle,
+        expectedComment,
+        expectedMbti,
+        expectedEnneagram,
+        expectedZodiac
+    );
+
+    Assertions.assertNotNull(actualComment);
+    Assertions.assertNotNull(actualComment.getId());
+
+    final var actualID = actualComment.getId();
+    final var actualCreatedAt = actualComment.getCreatedAt();
+    final var actualUpdatedAt = actualComment.getUpdatedAt();
+
+    actualComment.update(1);
+
+    Assertions.assertEquals(actualID, actualComment.getId());
+    Assertions.assertEquals(expectedTitle, actualComment.getTitle());
+    Assertions.assertEquals(expectedComment, actualComment.getComment());
+    Assertions.assertEquals(actualCreatedAt, actualComment.getCreatedAt());
+    Assertions.assertEquals(1, actualComment.getLike());
   }
 }

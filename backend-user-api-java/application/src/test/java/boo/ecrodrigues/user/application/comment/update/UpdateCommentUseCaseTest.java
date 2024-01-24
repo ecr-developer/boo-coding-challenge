@@ -44,100 +44,18 @@ public class UpdateCommentUseCaseTest extends UseCaseTest {
     final var expectedAccountID = AccountID.unique();
     final var expectedTitle = "Title Celebrety test";
     final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
-
-    final var expectedId = aComment.getId();
-
-    final var aCommand = UpdateCommentCommand.with(
-        expectedId.getValue(),
-        MBTI.ENTJ,
-        Enneagram.E_3W4,
-        Zodiac.Gemini,
-        1
+    final var aComment = Comment.newComment(
+        expectedAccountID,
+        expectedTitle,
+        expectedComment,
+        expectedMbti,
+        expectedEnneagram,
+        expectedZodiac
     );
-
-    when(commentGateway.findById(any()))
-        .thenReturn(Optional.of(Comment.with(aComment)));
-
-    when(commentGateway.update(any()))
-        .thenAnswer(returnsFirstArg());
-
-    // when
-    final var actualOutput = useCase.execute(aCommand);
-
-    // then
-    Assertions.assertNotNull(actualOutput);
-    Assertions.assertEquals(expectedId.getValue(), actualOutput.id());
-
-    verify(commentGateway).findById(eq(expectedId));
-
-    verify(commentGateway).update(argThat(aUpdatedComment ->
-        Objects.equals(expectedId, aUpdatedComment.getId())
-            && Objects.equals(expectedTitle, aUpdatedComment.getTitle())
-            && Objects.equals(expectedComment, aUpdatedComment.getComment())
-            && Objects.equals(MBTI.ENTJ, aUpdatedComment.getMbti())
-            && Objects.equals(Enneagram.E_3W4, aUpdatedComment.getEnneagram())
-            && Objects.equals(Zodiac.Gemini, aUpdatedComment.getZodiac())
-            && Objects.equals(1, aUpdatedComment.getLike())
-            && Objects.equals(aComment.getCreatedAt(), aUpdatedComment.getCreatedAt())
-            && aComment.getUpdatedAt().isBefore(aUpdatedComment.getUpdatedAt())
-    ));
-  }
-
-  @Test
-  public void givenAValidCommand_whenCallsUpdateCommentWithoutLike_shouldReturnItsIdentifier() {
-    // given
-    final var expectedAccountID = AccountID.unique();
-    final var expectedTitle = "Title Celebrety test";
-    final var expectedComment = "Comment Celebrety test ...";
-
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
-
-    final var expectedId = aComment.getId();
-
-    final var aCommand = UpdateCommentCommand.with(
-        expectedId.getValue(),
-        MBTI.ENTJ,
-        Enneagram.E_3W4,
-        Zodiac.Gemini
-    );
-
-    when(commentGateway.findById(any()))
-        .thenReturn(Optional.of(Comment.with(aComment)));
-
-    when(commentGateway.update(any()))
-        .thenAnswer(returnsFirstArg());
-
-    // when
-    final var actualOutput = useCase.execute(aCommand);
-
-    // then
-    Assertions.assertNotNull(actualOutput);
-    Assertions.assertEquals(expectedId.getValue(), actualOutput.id());
-
-    verify(commentGateway).findById(eq(expectedId));
-
-    verify(commentGateway).update(argThat(aUpdatedComment ->
-        Objects.equals(expectedId, aUpdatedComment.getId())
-            && Objects.equals(expectedTitle, aUpdatedComment.getTitle())
-            && Objects.equals(expectedComment, aUpdatedComment.getComment())
-            && Objects.equals(MBTI.ENTJ, aUpdatedComment.getMbti())
-            && Objects.equals(Enneagram.E_3W4, aUpdatedComment.getEnneagram())
-            && Objects.equals(Zodiac.Gemini, aUpdatedComment.getZodiac())
-            && Objects.equals(aComment.getCreatedAt(), aUpdatedComment.getCreatedAt())
-            && aComment.getUpdatedAt().isBefore(aUpdatedComment.getUpdatedAt())
-    ));
-  }
-
-  @Test
-  public void givenAValidCommand_whenCallsUpdateCommentJustLike_shouldReturnItsIdentifier() {
-    // given
-    final var expectedAccountID = AccountID.unique();
-    final var expectedTitle = "Title Celebrety test";
-    final var expectedComment = "Comment Celebrety test ...";
-
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
 
     final var expectedId = aComment.getId();
 
@@ -165,9 +83,11 @@ public class UpdateCommentUseCaseTest extends UseCaseTest {
         Objects.equals(expectedId, aUpdatedComment.getId())
             && Objects.equals(expectedTitle, aUpdatedComment.getTitle())
             && Objects.equals(expectedComment, aUpdatedComment.getComment())
+            && Objects.equals(MBTI.ESTJ, aUpdatedComment.getMbti())
+            && Objects.equals(Enneagram.E_4W3, aUpdatedComment.getEnneagram())
+            && Objects.equals(Zodiac.Gemini, aUpdatedComment.getZodiac())
             && Objects.equals(1, aUpdatedComment.getLike())
             && Objects.equals(aComment.getCreatedAt(), aUpdatedComment.getCreatedAt())
-            && aComment.getUpdatedAt().isBefore(aUpdatedComment.getUpdatedAt())
     ));
   }
 
@@ -177,8 +97,18 @@ public class UpdateCommentUseCaseTest extends UseCaseTest {
     final var expectedAccountID = AccountID.unique();
     final var expectedTitle = "Title Celebrety test";
     final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
+    final var aComment = Comment.newComment(
+        expectedAccountID,
+        expectedTitle,
+        expectedComment,
+        expectedMbti,
+        expectedEnneagram,
+        expectedZodiac
+    );
 
     final var expectedId = CommentID.from("123");
 
@@ -186,9 +116,6 @@ public class UpdateCommentUseCaseTest extends UseCaseTest {
 
     final var aCommand = UpdateCommentCommand.with(
         expectedId.getValue(),
-        MBTI.ENTJ,
-        Enneagram.E_3W4,
-        Zodiac.Gemini,
         1
     );
 

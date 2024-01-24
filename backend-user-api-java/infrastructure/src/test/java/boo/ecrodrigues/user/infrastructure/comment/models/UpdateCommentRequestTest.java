@@ -18,26 +18,17 @@ public class UpdateCommentRequestTest {
 
   @Test
   public void testUnmarshall() throws Exception {
-    final var expectedMbti = MBTI.ENTJ;
-    final var expectedEnneagram = Enneagram.E_4W3;
-    final var expectedZodiac = Zodiac.Gemini;
     final var expectedLike = 1;
 
     final var json = """
                 {
-                  "mbti": "%s",
-                  "enneagram": "%s",
-                  "zodiac": "%s",
                   "like": "%s"
                 }
-                """.formatted(expectedMbti, expectedEnneagram, expectedZodiac, expectedLike);
+                """.formatted(expectedLike);
 
     final var actualJson = this.json.parse(json);
 
     Assertions.assertThat(actualJson)
-        .hasFieldOrPropertyWithValue("mbti", expectedMbti)
-        .hasFieldOrPropertyWithValue("enneagram", expectedEnneagram)
-        .hasFieldOrPropertyWithValue("zodiac", expectedZodiac)
         .hasFieldOrPropertyWithValue("like", expectedLike);
   }
 }

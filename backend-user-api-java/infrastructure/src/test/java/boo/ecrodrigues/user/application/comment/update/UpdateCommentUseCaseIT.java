@@ -38,8 +38,18 @@ public class UpdateCommentUseCaseIT {
     final var expectedAccountID = AccountID.unique();
     final var expectedTitle = "Title Celebrety test";
     final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
+    final var aComment = Comment.newComment(
+        expectedAccountID,
+        expectedTitle,
+        expectedComment,
+        expectedMbti,
+        expectedEnneagram,
+        expectedZodiac
+    );
 
     this.commentRepository.save(CommentEntity.from(aComment));
 
@@ -47,9 +57,7 @@ public class UpdateCommentUseCaseIT {
 
     final var aCommand = UpdateCommentCommand.with(
         expectedId.getValue(),
-        MBTI.ENTJ,
-        Enneagram.E_3W4,
-        Zodiac.Gemini
+        1
     );
 
     // when
@@ -63,11 +71,11 @@ public class UpdateCommentUseCaseIT {
 
     Assertions.assertEquals(expectedTitle, actualPersistedMember.getTitle());
     Assertions.assertEquals(expectedComment, actualPersistedMember.getComment());
-    Assertions.assertEquals(MBTI.ENTJ, actualPersistedMember.getMbti());
-    Assertions.assertEquals(Enneagram.E_3W4, actualPersistedMember.getEnneagram());
-    Assertions.assertEquals(Zodiac.Gemini, actualPersistedMember.getZodiac());
+    Assertions.assertEquals(expectedMbti, actualPersistedMember.getMbti());
+    Assertions.assertEquals(expectedEnneagram, actualPersistedMember.getEnneagram());
+    Assertions.assertEquals(expectedZodiac, actualPersistedMember.getZodiac());
+    Assertions.assertEquals(1, actualPersistedMember.getLike());
     Assertions.assertEquals(aComment.getCreatedAt(), actualPersistedMember.getCreatedAt());
-    Assertions.assertTrue(aComment.getUpdatedAt().isBefore(actualPersistedMember.getUpdatedAt()));
   }
 
   @Test
@@ -79,9 +87,7 @@ public class UpdateCommentUseCaseIT {
 
     final var aCommand = UpdateCommentCommand.with(
         expectedId.getValue(),
-        MBTI.ENTJ,
-        Enneagram.E_3W4,
-        Zodiac.Gemini
+        1
     );
 
     // when

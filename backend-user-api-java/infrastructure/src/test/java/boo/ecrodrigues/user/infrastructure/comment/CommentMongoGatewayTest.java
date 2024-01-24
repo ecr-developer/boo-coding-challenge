@@ -35,8 +35,18 @@ public class CommentMongoGatewayTest {
     final var expectedAccountID = AccountID.unique();
     final var expectedTitle = "Title Celebrety test";
     final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
+    final var aComment = Comment.newComment(
+        expectedAccountID,
+        expectedTitle,
+        expectedComment,
+        expectedMbti,
+        expectedEnneagram,
+        expectedZodiac
+    );
     final var expectedId = aComment.getId();
 
     Assertions.assertEquals(0, commentRepository.count());
@@ -68,8 +78,18 @@ public class CommentMongoGatewayTest {
     final var expectedAccountID = AccountID.unique();
     final var expectedTitle = "Title Celebrety test";
     final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
+    final var aComment = Comment.newComment(
+        expectedAccountID,
+        expectedTitle,
+        expectedComment,
+        expectedMbti,
+        expectedEnneagram,
+        expectedZodiac
+    );
     final var expectedId = aComment.getId();
 
     final var currentComment = commentRepository.save(CommentEntity.from(aComment));
@@ -80,7 +100,7 @@ public class CommentMongoGatewayTest {
 
     // when
     final var actualComment = commentGateway.update(
-        Comment.with(aComment).update(MBTI.ENTJ, Enneagram.E_4W3, Zodiac.Gemini)
+        Comment.with(aComment).update(1)
     );
 
     // then
@@ -97,9 +117,10 @@ public class CommentMongoGatewayTest {
     Assertions.assertEquals(expectedId.getValue(), persistedComment.getId());
     Assertions.assertEquals(expectedTitle, persistedComment.getTitle());
     Assertions.assertEquals(expectedComment, persistedComment.getComment());
-    Assertions.assertEquals(MBTI.ENTJ, persistedComment.getMbti());
-    Assertions.assertEquals(Enneagram.E_4W3, persistedComment.getEnneagram());
-    Assertions.assertEquals(Zodiac.Gemini, persistedComment.getZodiac());
+    Assertions.assertEquals(expectedMbti, persistedComment.getMbti());
+    Assertions.assertEquals(expectedEnneagram, persistedComment.getEnneagram());
+    Assertions.assertEquals(expectedZodiac, persistedComment.getZodiac());
+    Assertions.assertEquals(1, persistedComment.getLike());
     Assertions.assertEquals(aComment.getCreatedAt(), persistedComment.getCreatedAt());
     Assertions.assertTrue(aComment.getUpdatedAt().isBefore(persistedComment.getUpdatedAt()));
   }
@@ -110,8 +131,18 @@ public class CommentMongoGatewayTest {
     final var expectedAccountID = AccountID.unique();
     final var expectedTitle = "Title Celebrety test";
     final var expectedComment = "Comment Celebrety test ...";
+    final var expectedMbti = MBTI.ESTJ;
+    final var expectedEnneagram = Enneagram.E_4W3;
+    final var expectedZodiac = Zodiac.Gemini;
 
-    final var aComment = Comment.newComment(expectedAccountID, expectedTitle, expectedComment);
+    final var aComment = Comment.newComment(
+        expectedAccountID,
+        expectedTitle,
+        expectedComment,
+        expectedMbti,
+        expectedEnneagram,
+        expectedZodiac
+    );
 
     final var expectedItems = 1;
     final var expectedId = aComment.getId();

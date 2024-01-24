@@ -40,8 +40,26 @@ public class ListCommentsUseCaseIT {
   public void givenAValidQuery_whenCallsListComments_shouldReturnAll() {
     // given
     final var comments = List.of(
-        CommentEntity.from(Comment.newComment(AccountID.unique(), "Title Celebrety test", "Comment Celebrety test ...")),
-        CommentEntity.from(Comment.newComment(AccountID.unique(), "Title Celebrety test 2", "Comment Celebrety test 2 ..."))
+        CommentEntity.from(
+            Comment.newComment(
+                AccountID.unique(),
+                "Title Celebrety test",
+                "Comment Celebrety test ...",
+                MBTI.ESTJ,
+                Enneagram.E_4W3,
+                Zodiac.Gemini
+            )
+        ),
+        CommentEntity.from(
+            Comment.newComment(
+                AccountID.unique(),
+                "Title Celebrety test 2",
+                "Comment Celebrety test 2 ...",
+                MBTI.ESTJ,
+                Enneagram.E_4W3,
+                Zodiac.Libra
+            )
+        )
     );
 
     this.commentRepository.saveAll(comments);
@@ -79,19 +97,24 @@ public class ListCommentsUseCaseIT {
   public void givenAValidQueryWithMbtiFilter_whenCallsListComments_shouldReturnJustWithMbti() {
     // given
     final var comments = List.of(
-        CommentEntity.from(Comment.newComment(AccountID.unique(), "Title Celebrety test", "Comment Celebrety test ...")),
         CommentEntity.from(
-            Comment.with(
-                CommentID.unique(),
+            Comment.newComment(
+                AccountID.unique(),
+                "Title Celebrety test",
+                "Comment Celebrety test ...",
+                MBTI.ESTJ,
+                Enneagram.E_4W3,
+                Zodiac.Gemini
+            )
+        ),
+        CommentEntity.from(
+            Comment.newComment(
                 AccountID.unique(),
                 "Title Celebrety test 2",
                 "Comment Celebrety test 2 ...",
-                MBTI.ENTJ,
+                MBTI.ENFP,
                 Enneagram.E_4W3,
-                Zodiac.Gemini,
-                1,
-                InstantUtils.now(),
-                InstantUtils.now()
+                Zodiac.Libra
             )
         )
     );
@@ -114,7 +137,7 @@ public class ListCommentsUseCaseIT {
     final var aQuery =
         new SearchQuery(expectedPage, expectedPerPage, expectedTerms, expectedSort, expectedDirection);
 
-    final var aFields = new Fields(MBTI.ENTJ.toString(), null, null);
+    final var aFields = new Fields(MBTI.ENFP.toString(), null, null);
 
     // when
     final var actualOutput = useCase.execute(aQuery, aFields);
@@ -131,19 +154,24 @@ public class ListCommentsUseCaseIT {
   public void givenAValidQueryWithEnneagramFilter_whenCallsListComments_shouldReturnJustWithEnneagram() {
     // given
     final var comments = List.of(
-        CommentEntity.from(Comment.newComment(AccountID.unique(), "Title Celebrety test", "Comment Celebrety test ...")),
         CommentEntity.from(
-            Comment.with(
-                CommentID.unique(),
+            Comment.newComment(
+                AccountID.unique(),
+                "Title Celebrety test",
+                "Comment Celebrety test ...",
+                MBTI.ESTJ,
+                Enneagram.E_4W3,
+                Zodiac.Gemini
+            )
+        ),
+        CommentEntity.from(
+            Comment.newComment(
                 AccountID.unique(),
                 "Title Celebrety test 2",
                 "Comment Celebrety test 2 ...",
-                MBTI.ENTJ,
-                Enneagram.E_4W3,
-                Zodiac.Gemini,
-                1,
-                InstantUtils.now(),
-                InstantUtils.now()
+                MBTI.ENFP,
+                Enneagram.E_3W4,
+                Zodiac.Libra
             )
         )
     );
@@ -183,19 +211,24 @@ public class ListCommentsUseCaseIT {
   public void givenAValidQueryWithZodiacFilter_whenCallsListComments_shouldReturnJustWithZodiac() {
     // given
     final var comments = List.of(
-        CommentEntity.from(Comment.newComment(AccountID.unique(), "Title Celebrety test", "Comment Celebrety test ...")),
         CommentEntity.from(
-            Comment.with(
-                CommentID.unique(),
+            Comment.newComment(
+                AccountID.unique(),
+                "Title Celebrety test",
+                "Comment Celebrety test ...",
+                MBTI.ESTJ,
+                Enneagram.E_4W3,
+                Zodiac.Gemini
+            )
+        ),
+        CommentEntity.from(
+            Comment.newComment(
                 AccountID.unique(),
                 "Title Celebrety test 2",
                 "Comment Celebrety test 2 ...",
-                MBTI.ENTJ,
-                Enneagram.E_4W3,
-                Zodiac.Gemini,
-                1,
-                InstantUtils.now(),
-                InstantUtils.now()
+                MBTI.ENFP,
+                Enneagram.E_3W4,
+                Zodiac.Libra
             )
         )
     );

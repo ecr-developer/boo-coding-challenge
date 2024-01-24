@@ -55,7 +55,6 @@ public interface CommentAPI {
       @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
   })
   Pagination<CommentListResponse> list(
-      @RequestParam(name = "search", required = false, defaultValue = "") final String search,
       @RequestParam(name = "mbti", required = false, defaultValue = "") final String mbti,
       @RequestParam(name = "enneagram", required = false, defaultValue = "") final String enneagram,
       @RequestParam(name = "zodiac", required = false, defaultValue = "") final String zodiac,

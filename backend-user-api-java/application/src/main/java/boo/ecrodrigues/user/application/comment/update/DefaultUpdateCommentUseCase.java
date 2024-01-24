@@ -21,16 +21,12 @@ public non-sealed class DefaultUpdateCommentUseCase extends UpdateCommentUseCase
   @Override
   public UpdateCommentOutput execute(UpdateCommentCommand aCommand) {
     final var anId = CommentID.from(aCommand.id());
-    final var aMbti = aCommand.mbti();
-    final var anEnneagram = aCommand.enneagram();
-    final var aZodiac = aCommand.zodiac();
     final var aLike = aCommand.like();
 
     final var aComment = this.commentGateway.findById(anId)
         .orElseThrow(notFound(anId));
 
     final var notification = Notification.create();
-    notification.validate(() -> aComment.update(aMbti, anEnneagram, aZodiac));
     notification.validate(() -> aComment.update(aLike));
 
     if (notification.hasError()) {

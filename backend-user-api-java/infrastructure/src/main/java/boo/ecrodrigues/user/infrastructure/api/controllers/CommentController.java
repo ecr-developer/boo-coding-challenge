@@ -43,7 +43,10 @@ public class CommentController implements CommentAPI {
     final var aCommand = CreateCommentCommand.with(
         AccountID.from(input.accountId()),
         input.title(),
-        input.comment()
+        input.comment(),
+        input.mbti(),
+        input.enneagram(),
+        input.zodiac()
     );
 
     final var output = this.createCommentUseCase.execute(aCommand);
@@ -55,9 +58,6 @@ public class CommentController implements CommentAPI {
   public ResponseEntity<?> updateById(final String id, final UpdateCommentRequest aBody) {
     final var aCommand = UpdateCommentCommand.with(
         id,
-        aBody.mbti() != null ? aBody.mbti() : null,
-        aBody.enneagram() != null ? aBody.enneagram() : null,
-        aBody.zodiac() != null ? aBody.zodiac() : null,
         aBody.like() > 0 ? aBody.like() : 0
     );
 
@@ -67,7 +67,6 @@ public class CommentController implements CommentAPI {
 
   @Override
   public Pagination<CommentListResponse> list(
-      final String search,
       final String mbti,
       final String enneagram,
       final String zodiac,
@@ -79,7 +78,7 @@ public class CommentController implements CommentAPI {
     final var searchQuery = new SearchQuery(
         page,
         perPage,
-        search,
+        null,
         sort,
         direction
     );
