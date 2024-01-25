@@ -41,7 +41,7 @@ database:
     comment: Comments
 
 # Swagger configurations
-swaggerBaseUrl: ${SWAGGER_BASE_URL:http://localhost:8081}
+swaggerBaseUrl: ${SWAGGER_BASE_URL:http://localhost:8080}
 
 springdoc:
   default-produces-media-type: application/json
